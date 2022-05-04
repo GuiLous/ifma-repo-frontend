@@ -1,10 +1,16 @@
 import { Select } from '@chakra-ui/react';
 
+import { SearchOptions } from '../../pages';
+
 interface SelectSearchProps {
   setValue: (e: string) => void;
+  dataOptions: SearchOptions[];
 }
 
-export default function SelectSearch({ setValue }: SelectSearchProps) {
+export default function SelectSearch({
+  setValue,
+  dataOptions,
+}: SelectSearchProps) {
   return (
     <Select
       color="gray.600"
@@ -16,9 +22,11 @@ export default function SelectSearch({ setValue }: SelectSearchProps) {
       onChange={(e) => setValue(e.target.value)}
     >
       <option value="todos">Todos</option>
-      <option value="option1">Option 1</option>
-      <option value="option2">Option 2</option>
-      <option value="option3">Option 3</option>
+      {dataOptions?.map((dataOption) => (
+        <option key={dataOption.id} value={dataOption.id}>
+          {dataOption.name}
+        </option>
+      ))}
     </Select>
   );
 }

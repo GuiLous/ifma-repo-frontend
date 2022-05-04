@@ -3,22 +3,31 @@ import { FormEvent, useState } from 'react';
 import { Button, SimpleGrid } from '@chakra-ui/react';
 import Router from 'next/router';
 
+import { SearchOptions } from '../../pages';
 import InputSearch from './inputSearch';
 import ItemSearch from './ItemSearch';
 import SelectSearch from './SelectSearch';
 
-export default function AdvancedSearch() {
+interface AdvancedSearchProps {
+  dataCourses: SearchOptions[];
+  dataKnowledgeArea: SearchOptions[];
+}
+
+export default function AdvancedSearch({
+  dataCourses,
+  dataKnowledgeArea,
+}: AdvancedSearchProps) {
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [advisor, setAdvisor] = useState('');
   const [keywords, setKeywords] = useState('');
-  const [course, setCourse] = useState('todos');
-  const [knowledgeArea, setKnowledgeArea] = useState('todos');
+  const [course_id, setCourse_id] = useState('');
+  const [knowledge_id, setKnowledge_id] = useState('');
 
   function handleSearch(event: FormEvent) {
     event.preventDefault();
     Router.push(
-      `/search?title=${title}&author=${author}&advisor=${advisor}&keywords=${keywords}&course=${course}&knowledgearea=${knowledgeArea}`
+      `/search?title=${title}&author=${author}&advisor=${advisor}&keywords=${keywords}&course_id=${course_id}&knowledge_id=${knowledge_id}`
     );
   }
 
@@ -46,10 +55,13 @@ export default function AdvancedSearch() {
         <InputSearch setValue={setKeywords} placeHolder="IA; Cloud Computing" />
       </ItemSearch>
       <ItemSearch title="Curso">
-        <SelectSearch setValue={setCourse} />
+        <SelectSearch dataOptions={dataCourses} setValue={setCourse_id} />
       </ItemSearch>
       <ItemSearch title="Área de conhecimento">
-        <SelectSearch setValue={setKnowledgeArea} />
+        <SelectSearch
+          dataOptions={dataKnowledgeArea}
+          setValue={setKnowledge_id}
+        />
       </ItemSearch>
 
       <Button
@@ -60,6 +72,7 @@ export default function AdvancedSearch() {
         variant="solid"
         mt={['-1', '-3']}
         type="submit"
+        position="initial"
       >
         Buscar
       </Button>

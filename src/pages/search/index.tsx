@@ -13,8 +13,10 @@ import { SearchBox } from '../../components/SearchBox/SearchBox';
 import WorksList from '../../components/WorksList';
 import { HideAndShowHeaderContext } from '../../context/HideAndShowHeaderContext';
 import { api } from '../../services/apiClient';
-import { useWorks } from '../../services/hooks/useWorks';
-import { withSSRGuest } from '../../utils/withSSRGuest';
+
+import { SearchOptions } from '..';
+
+import { useSearchWorks } from '../../services/hooks/useSearchWorks';
 
 interface Work {
   id: string;
@@ -25,28 +27,38 @@ interface Work {
 
 interface SearchProps {
   works: Work[];
+  dataCourses: SearchOptions[];
+  dataKnowledgeArea: SearchOptions[];
 }
 
-type routerQueryParams = {
+export type routerQueryParams = {
   title: string;
   author: string;
   advisor: string;
   keywords: string;
-  course: string;
-  knowledgeArea: string;
+  course_id: string;
+  knowledge_id: string;
 };
 
-export default function Search({ works }: SearchProps) {
-  const { navIsOpen } = useContext(HideAndShowHeaderContext);
-  const [page, setPage] = useState(1);
-  const { data, isLoading, isFetching, error } = useWorks(page, {
-    initialData: works,
-  });
-
+export default function Search({
+  works,
+  dataCourses,
+  dataKnowledgeArea,
+}: SearchProps) {
   const router = useRouter();
 
-  const { title, advisor, author, course, keywords, knowledgeArea } =
-    router.query as routerQueryParams;
+  const { navIsOpen } = useContext(HideAndShowHeaderContext);
+  const [page, setPage] = useState(1);
+
+  const dataSearch = router.query as routerQueryParams;
+
+  const { data, isLoading, isFetching, error } = useSearchWorks(
+    page,
+    dataSearch,
+    {
+      initialData: works,
+    }
+  );
 
   return (
     <Box maxWidth={1180} mx="auto">
@@ -102,15 +114,19 @@ export default function Search({ works }: SearchProps) {
             <WorksList works={data?.works} />
             <Pagination
               totalCountOfRegisters={data?.total_count}
-              onPageChange={setPage}
               currentPage={page}
+              totalRegisterPerPage={data?.works.length}
+              onPageChange={setPage}
             />
           </>
         )}
 
         <HeadingBar textContent="PESQUISA AVANÇADA" />
 
-        <AdvancedSearch />
+        <AdvancedSearch
+          dataCourses={dataCourses}
+          dataKnowledgeArea={dataKnowledgeArea}
+        />
       </Flex>
       <Footer />
     </Box>
@@ -118,8 +134,13 @@ export default function Search({ works }: SearchProps) {
 }
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  const { data } = await api.get(`/monographs/`);
+  const { data: dataCourses } = await api.get('/courses');
+  const { data: dataKnowledgeArea } = await api.get('/knowledgearea');
+
   return {
-    props: {},
+    props: {
+      dataCourses,
+      dataKnowledgeArea,
+    },
   };
 };

@@ -1,5 +1,6 @@
 import { useQuery, UseQueryOptions, UseQueryResult } from 'react-query';
 
+import { routerQueryParams } from '../../pages/search';
 import { api } from '../apiClient';
 
 type Work = {
@@ -15,9 +16,19 @@ type GetWorksResponse = {
 };
 
 export async function getWorksFiltered(
-  page: number
+  page: number,
+  dataSearch: routerQueryParams
 ): Promise<GetWorksResponse> {
-  const { data } = await api.get(`/monographs/${page}`);
+  const params = {
+    title: dataSearch.title,
+    author: dataSearch.author,
+    advisor: dataSearch.advisor,
+    keywords: dataSearch.keywords,
+    course_id: dataSearch.course_id,
+    knowledge_id: dataSearch.knowledge_id,
+  };
+
+  const { data } = await api.get(`/monographs/search/${page}`, { params });
 
   const { total_count, monographs } = data;
 
@@ -43,9 +54,17 @@ export async function getWorksFiltered(
   };
 }
 
-export function useSearchWorks(page: number, options: UseQueryOptions) {
-  return useQuery(['works', page], () => getWorksFiltered(page), {
-    staleTime: 1000 * 60 * 10, // 10 minutes
-    ...options,
-  }) as UseQueryResult<GetWorksResponse, unknown>;
+export function useSearchWorks(
+  page: number,
+  dataSearch: routerQueryParams,
+  options: UseQueryOptions
+) {
+  return useQuery(
+    ['worksSearch', page, dataSearch],
+    () => getWorksFiltered(page, dataSearch),
+    {
+      staleTime: 1000 * 60 * 10, // 10 minutes
+      ...options,
+    }
+  ) as UseQueryResult<GetWorksResponse, unknown>;
 }

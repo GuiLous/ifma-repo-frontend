@@ -1,13 +1,7 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext, useState } from 'react';
 
-import {
-  Box,
-  Flex,
-  Slide,
-  Spinner,
-  Text,
-  useDisclosure,
-} from '@chakra-ui/react';
+import { Box, Flex, Slide, Spinner, Text } from '@chakra-ui/react';
+import { GetServerSideProps } from 'next';
 
 import AdvancedSearch from '../components/AdvancedSearch';
 import Footer from '../components/Footer';
@@ -18,20 +12,32 @@ import { SearchBox } from '../components/SearchBox/SearchBox';
 import SideSearch from '../components/SideSearch';
 import WorksList from '../components/WorksList';
 import { HideAndShowHeaderContext } from '../context/HideAndShowHeaderContext';
+import { api } from '../services/apiClient';
 import { useWorks } from '../services/hooks/useWorks';
 
-interface Work {
+type Work = {
   id: string;
   title: string;
   authors: string[];
   published_date: string;
-}
+};
+
+export type SearchOptions = {
+  id: string;
+  name: string;
+};
 
 interface HomeProps {
   works: Work[];
+  dataCourses: SearchOptions[];
+  dataKnowledgeArea: SearchOptions[];
 }
 
-export default function Home({ works }: HomeProps) {
+export default function Home({
+  works,
+  dataCourses,
+  dataKnowledgeArea,
+}: HomeProps) {
   const { navIsOpen } = useContext(HideAndShowHeaderContext);
   const [page, setPage] = useState(1);
   const { data, isLoading, isFetching, error } = useWorks(page, {
@@ -91,31 +97,54 @@ export default function Home({ works }: HomeProps) {
               <WorksList works={data?.works} />
               <Pagination
                 totalCountOfRegisters={data?.total_count}
-                onPageChange={setPage}
                 currentPage={page}
+                totalRegisterPerPage={data?.works.length}
+                onPageChange={setPage}
               />
             </>
           )}
 
           <HeadingBar textContent="PESQUISA AVANÇADA" />
 
-          <AdvancedSearch />
+          <AdvancedSearch
+            dataCourses={dataCourses}
+            dataKnowledgeArea={dataKnowledgeArea}
+          />
         </Flex>
 
         <Flex
           w="100%"
           maxWidth={[700, 700, 400, 400]}
-          direction={['column', 'row', 'column']}
+          direction={['column', 'column', 'column']}
           mt={['15px', '18px', '102px']}
-          px={['4', '0', '6']}
+          px={['1', '0', '6']}
           align="center"
-          justify={['initial', 'space-between', 'initial']}
         >
-          <SideSearch />
-          <SideSearch />
+          <SideSearch
+            items={dataCourses}
+            queryType="course_id"
+            title="Listar obras pelo Curso"
+          />
+          <SideSearch
+            items={dataKnowledgeArea}
+            queryType="knowledge_id"
+            title="Listar obras pela Área do Conhecimento"
+          />
         </Flex>
       </Flex>
       <Footer />
     </Box>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const { data: dataCourses } = await api.get('/courses');
+  const { data: dataKnowledgeArea } = await api.get('/knowledgearea');
+
+  return {
+    props: {
+      dataCourses,
+      dataKnowledgeArea,
+    },
+  };
+};
