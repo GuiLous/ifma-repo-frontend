@@ -1,6 +1,10 @@
 import { Select } from '@chakra-ui/react';
 
-export default function SelectSearch() {
+interface SelectSearchProps {
+  setValue: (e: string) => void;
+}
+
+export default function SelectSearch({ setValue }: SelectSearchProps) {
   return (
     <Select
       color="gray.600"
@@ -9,6 +13,7 @@ export default function SelectSearch() {
       _placeholder={{ color: 'gray.300' }}
       fontSize={['0.6rem', '0.8rem', '1rem']}
       defaultValue="todos"
+      onChange={(e) => setValue(e.target.value)}
     >
       <option value="todos">Todos</option>
       <option value="option1">Option 1</option>

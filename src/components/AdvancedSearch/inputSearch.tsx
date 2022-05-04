@@ -2,9 +2,13 @@ import { Input } from '@chakra-ui/react';
 
 interface InputSearchProps {
   placeHolder: string;
+  setValue: (e: string) => void;
 }
 
-export default function InputSearch({ placeHolder }: InputSearchProps) {
+export default function InputSearch({
+  placeHolder,
+  setValue,
+}: InputSearchProps) {
   return (
     <Input
       color="gray.600"
@@ -15,6 +19,7 @@ export default function InputSearch({ placeHolder }: InputSearchProps) {
       fontSize={['0.6rem', '0.8rem', '1rem']}
       position="initial"
       focusBorderColor="green.200"
+      onChange={(e) => setValue(e.target.value)}
     />
   );
 }

@@ -1,6 +1,8 @@
 import { useContext, useState } from 'react';
 
 import { Box, Flex, SimpleGrid, Slide, Spinner, Text } from '@chakra-ui/react';
+import { GetServerSideProps } from 'next';
+import { useRouter } from 'next/router';
 
 import AdvancedSearch from '../../components/AdvancedSearch';
 import Footer from '../../components/Footer';
@@ -10,7 +12,9 @@ import { Pagination } from '../../components/Pagination';
 import { SearchBox } from '../../components/SearchBox/SearchBox';
 import WorksList from '../../components/WorksList';
 import { HideAndShowHeaderContext } from '../../context/HideAndShowHeaderContext';
+import { api } from '../../services/apiClient';
 import { useWorks } from '../../services/hooks/useWorks';
+import { withSSRGuest } from '../../utils/withSSRGuest';
 
 interface Work {
   id: string;
@@ -23,12 +27,26 @@ interface SearchProps {
   works: Work[];
 }
 
+type routerQueryParams = {
+  title: string;
+  author: string;
+  advisor: string;
+  keywords: string;
+  course: string;
+  knowledgeArea: string;
+};
+
 export default function Search({ works }: SearchProps) {
   const { navIsOpen } = useContext(HideAndShowHeaderContext);
   const [page, setPage] = useState(1);
   const { data, isLoading, isFetching, error } = useWorks(page, {
     initialData: works,
   });
+
+  const router = useRouter();
+
+  const { title, advisor, author, course, keywords, knowledgeArea } =
+    router.query as routerQueryParams;
 
   return (
     <Box maxWidth={1180} mx="auto">
@@ -98,3 +116,10 @@ export default function Search({ works }: SearchProps) {
     </Box>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async () => {
+  const { data } = await api.get(`/monographs/`);
+  return {
+    props: {},
+  };
+};

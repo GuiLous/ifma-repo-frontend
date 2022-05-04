@@ -6,15 +6,14 @@ import {
   Flex,
   Heading,
   Link,
-  SimpleGrid,
   Slide,
   Text,
-  VStack,
 } from '@chakra-ui/react';
 
 import Footer from '../../components/Footer';
 import { Header } from '../../components/Header';
 import HeadingBar from '../../components/HeadingBar';
+import { WorkInfos } from '../../components/WorkInfos';
 import { HideAndShowHeaderContext } from '../../context/HideAndShowHeaderContext';
 
 export default function Work() {
@@ -116,78 +115,7 @@ export default function Work() {
           </Link>
         </Flex>
 
-        <SimpleGrid w="100%" gap="4" maxWidth={1100} columns={[1, 2]} mx="auto">
-          <Box bg="green.100" rounded={8} px={['1', '2', '3']} py={['1', '2']}>
-            <VStack align="baseline" spacing="1">
-              <Heading
-                fontSize={['0.8rem', '0.9rem', '1rem']}
-                fontWeight={600}
-                color="gray.500"
-                alignItems="center"
-              >
-                Tipo De Obra:
-                <Text
-                  ml="2"
-                  display="inline"
-                  fontSize={['0.9rem', '1.05rem']}
-                  fontWeight={400}
-                >
-                  {' '}
-                  Tcc
-                </Text>
-              </Heading>
-              <Heading
-                fontSize={['0.8rem', '0.9rem', '1rem']}
-                fontWeight={600}
-                color="gray.500"
-                alignItems="center"
-              >
-                Classificação Temática:
-                <Text
-                  ml="2"
-                  display="inline"
-                  fontSize={['0.9rem', '1.05rem']}
-                  fontWeight={400}
-                >
-                  {' '}
-                  Engenharia Civil
-                </Text>
-              </Heading>
-              <Heading
-                fontSize={['0.8rem', '0.9rem', '1rem']}
-                fontWeight={600}
-                color="gray.500"
-                alignItems="center"
-              >
-                Ano:
-                <Text
-                  ml="2"
-                  display="inline"
-                  fontSize={['0.9rem', '1.05rem']}
-                  fontWeight={400}
-                >
-                  {' '}
-                  20-10-22
-                </Text>
-              </Heading>
-            </VStack>
-          </Box>
-          <Box bg="green.100" rounded={8} px={['1', '2', '3']} py={['1', '2']}>
-            <Text>Tipo De Obra: Tcc</Text>
-            <Text>Classificação Temática: Engenharia</Text>
-            <Text>Ano: 2022</Text>
-          </Box>
-          <Box bg="green.100" rounded={8} px={['1', '2', '3']} py={['1', '2']}>
-            <Text>Tipo De Obra: Tcc</Text>
-            <Text>Classificação Temática: Engenharia</Text>
-            <Text>Ano: 2022</Text>
-          </Box>
-          <Box bg="green.100" rounded={8} px={['1', '2', '3']} py={['1', '2']}>
-            <Text>Tipo De Obra: Tcc</Text>
-            <Text>Classificação Temática: Engenharia</Text>
-            <Text>Ano: 2022</Text>
-          </Box>
-        </SimpleGrid>
+        <WorkInfos />
       </Flex>
       <Footer />
     </Box>
