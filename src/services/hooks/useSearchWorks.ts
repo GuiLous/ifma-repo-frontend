@@ -23,7 +23,7 @@ export async function getWorksFiltered(
     title: dataSearch.title,
     author: dataSearch.author,
     advisor: dataSearch.advisor,
-    keywords: dataSearch.keywords,
+    palavras_chave: dataSearch.palavras_chave,
     course_id: dataSearch.course_id,
     knowledge_id: dataSearch.knowledge_id,
   };

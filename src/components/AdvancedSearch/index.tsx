@@ -20,14 +20,14 @@ export default function AdvancedSearch({
   const [title, setTitle] = useState('');
   const [author, setAuthor] = useState('');
   const [advisor, setAdvisor] = useState('');
-  const [keywords, setKeywords] = useState('');
+  const [palavrasChave, setPalavrasChave] = useState('');
   const [course_id, setCourse_id] = useState('');
   const [knowledge_id, setKnowledge_id] = useState('');
 
   function handleSearch(event: FormEvent) {
     event.preventDefault();
     Router.push(
-      `/search?title=${title}&author=${author}&advisor=${advisor}&keywords=${keywords}&course_id=${course_id}&knowledge_id=${knowledge_id}`
+      `/search?title=${title}&author=${author}&advisor=${advisor}&palavras_chave=${palavrasChave}&course_id=${course_id}&knowledge_id=${knowledge_id}`
     );
   }
 
@@ -52,7 +52,10 @@ export default function AdvancedSearch({
         <InputSearch setValue={setAdvisor} placeHolder="Guilherme Lourenço" />
       </ItemSearch>
       <ItemSearch title="Palavra(a) chave">
-        <InputSearch setValue={setKeywords} placeHolder="IA; Cloud Computing" />
+        <InputSearch
+          setValue={setPalavrasChave}
+          placeHolder="IA; Cloud Computing"
+        />
       </ItemSearch>
       <ItemSearch title="Curso">
         <SelectSearch dataOptions={dataCourses} setValue={setCourse_id} />

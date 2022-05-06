@@ -6,7 +6,7 @@ import { Box, Divider, Heading, VStack } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { AuthContext } from '../../context/AuthContext';
+import { AuthContext } from '../../contexts/AuthContext';
 import { queryClient } from '../../services/queryClient';
 import FormButtons from './FormButtons';
 import { Input } from './Input';

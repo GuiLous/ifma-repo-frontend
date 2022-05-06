@@ -21,7 +21,7 @@ export default function SideSearch({
   queryType,
 }: SideSearchProps) {
   return (
-    <Flex w="100%" maxWidth={400} direction="column">
+    <Flex w="100%" maxWidth={400} mt="1px" direction="column">
       <Flex
         mx="auto"
         w="100%"

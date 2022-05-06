@@ -1,14 +1,19 @@
 import { useContext } from 'react';
+import { RiMenuLine } from 'react-icons/ri';
 
-import { Flex, Image, Link, useBreakpointValue } from '@chakra-ui/react';
-import NextLink from 'next/link';
+import { Flex, Icon, IconButton, useBreakpointValue } from '@chakra-ui/react';
 
-import { AuthContext } from '../../context/AuthContext';
+import { AuthContext } from '../../contexts/AuthContext';
+import { SidebarDrawerContext } from '../../contexts/SidebarDrawerContext';
+import { Separator } from '../Separator';
 import { LoginOrCreate } from './LoginOrCreate';
+import { Logo } from './Logo';
+import { PerfilAndLogout } from './PerfilAndLogout';
 import { Profile } from './Profile';
 
 export function Header() {
   const { isAuthenticated } = useContext(AuthContext);
+  const { onOpen } = useContext(SidebarDrawerContext);
 
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -20,7 +25,7 @@ export function Header() {
       as="header"
       maxWidth={1180}
       w="100%"
-      direction={['column', 'column', 'row']}
+      direction={isAuthenticated ? 'row' : ['column', 'column', 'row']}
       px={['2', '4', '6']}
       py={['2', '4', '6']}
       bg="White"
@@ -32,19 +37,34 @@ export function Header() {
       mx="auto"
       zIndex="100"
     >
-      <NextLink href="/" passHref>
-        <Link>
-          <Image
-            w={['120px', '170px', '240px']}
-            src="/images/logo.png"
-            alt="Logo com nome IFMA"
-            mb={['6', '6', '0']}
+      <Logo />
+
+      {!isWideVersion && (
+        <>
+          <IconButton
+            aria-label="Open navigation"
+            icon={<Icon as={RiMenuLine} />}
+            fontSize="24"
+            variant="unstyled"
+            onClick={onOpen}
+            mr="2"
+            mt="3"
           />
-        </Link>
-      </NextLink>
+        </>
+      )}
 
       {isAuthenticated ? (
-        <Profile showProfileData={isWideVersion} />
+        <>
+          {isWideVersion && (
+            <Flex align="center" gap="6">
+              <Profile showProfileData={isWideVersion} />
+
+              <Separator />
+
+              <PerfilAndLogout />
+            </Flex>
+          )}
+        </>
       ) : (
         <LoginOrCreate />
       )}

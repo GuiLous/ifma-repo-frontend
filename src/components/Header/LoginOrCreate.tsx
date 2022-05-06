@@ -24,6 +24,7 @@ export function LoginOrCreate() {
       direction={['column', 'column', 'row']}
       align="center"
       justify={['center', 'center', 'end']}
+      mt={['3', '6', '0']}
     >
       <NextLink href="/session" passHref>
         <Link>

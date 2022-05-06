@@ -18,7 +18,7 @@ export default function WorksList({ works }: WorksListProps) {
   return (
     <>
       {works?.map((work) => (
-        <NextLink key={work.id} href={`/search`} passHref>
+        <NextLink key={work.id} href={`/work-page/${work.id}`} passHref>
           <Link _hover={{ textDecoration: 'none' }} role="group" mb="1">
             <Box
               w="100%"

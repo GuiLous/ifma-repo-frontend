@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import { AuthContext } from '../../context/AuthContext';
+import { AuthContext } from '../../contexts/AuthContext';
 import { ValidateUserPermissions } from '../../utils/ValidateUserPermissions';
 
 type UseCanParams = {

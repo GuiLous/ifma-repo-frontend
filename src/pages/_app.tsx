@@ -4,8 +4,9 @@ import { ReactQueryDevtools } from 'react-query/devtools';
 import { ChakraProvider } from '@chakra-ui/react';
 import { AppProps } from 'next/app';
 
-import { AuthProvider } from '../context/AuthContext';
-import { HideAndShowHeaderProvider } from '../context/HideAndShowHeaderContext';
+import { AuthProvider } from '../contexts/AuthContext';
+import { HideAndShowHeaderProvider } from '../contexts/HideAndShowHeaderContext';
+import { SidebarDrawerProvider } from '../contexts/SidebarDrawerContext';
 import { queryClient } from '../services/queryClient';
 import { theme } from '../styles/theme';
 
@@ -15,7 +16,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       <ChakraProvider theme={theme}>
         <AuthProvider>
           <HideAndShowHeaderProvider>
-            <Component {...pageProps} />
+            <SidebarDrawerProvider>
+              <Component {...pageProps} />
+            </SidebarDrawerProvider>
           </HideAndShowHeaderProvider>
         </AuthProvider>
       </ChakraProvider>

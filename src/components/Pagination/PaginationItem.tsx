@@ -14,6 +14,7 @@ export function PaginationItem({
   if (isCurrent) {
     return (
       <Button
+        position="initial"
         size="sm"
         fontSize={['sm', 'xs']}
         width="4"
@@ -31,6 +32,7 @@ export function PaginationItem({
 
   return (
     <Button
+      position="initial"
       color="White"
       size="sm"
       fontSize={['sm', 'xs']}

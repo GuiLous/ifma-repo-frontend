@@ -2,7 +2,7 @@ import { useContext } from 'react';
 
 import { Box, Flex, Text } from '@chakra-ui/react';
 
-import { AuthContext } from '../../context/AuthContext';
+import { AuthContext } from '../../contexts/AuthContext';
 
 interface ProfileProps {
   showProfileData?: boolean;
@@ -13,7 +13,7 @@ export function Profile({ showProfileData = true }: ProfileProps) {
   return (
     <Flex align="center">
       {showProfileData && (
-        <Box mr="4" textAlign="right">
+        <Box textAlign="right">
           <Text
             color="green.400"
             fontWeight={500}

@@ -10,8 +10,9 @@ import HeadingBar from '../components/HeadingBar';
 import { Pagination } from '../components/Pagination';
 import { SearchBox } from '../components/SearchBox/SearchBox';
 import SideSearch from '../components/SideSearch';
+import { DrawerExample } from '../components/test';
 import WorksList from '../components/WorksList';
-import { HideAndShowHeaderContext } from '../context/HideAndShowHeaderContext';
+import { HideAndShowHeaderContext } from '../contexts/HideAndShowHeaderContext';
 import { api } from '../services/apiClient';
 import { useWorks } from '../services/hooks/useWorks';
 
@@ -58,13 +59,14 @@ export default function Home({
         direction={['column', 'column', 'row']}
         w="100%"
         mx="auto"
-        mt={['5rem', '6.5rem', '7rem']}
+        mt={['7rem', '11rem', '7.5rem']}
         px={['2', '4', '6']}
         py={['2', '4', '6']}
         justify="space-between"
         bg="White"
         borderRadius="8"
         mb={['3', '3', '6']}
+        gap={['2', '4']}
       >
         <Flex width="100%" maxWidth={700} direction="column">
           <Text
@@ -77,6 +79,8 @@ export default function Home({
           </Text>
 
           <SearchBox />
+
+          {/* <DrawerExample /> */}
 
           <HeadingBar textContent="OBRAS MAIS RECENTES" />
 
@@ -116,8 +120,8 @@ export default function Home({
           w="100%"
           maxWidth={[700, 700, 400, 400]}
           direction={['column', 'column', 'column']}
-          mt={['15px', '18px', '102px']}
-          px={['1', '0', '6']}
+          mt={['15px', '18px', '103px']}
+          // pl={['1', '0', '6']}
           align="center"
         >
           <SideSearch
