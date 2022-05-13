@@ -15,6 +15,7 @@ import Footer from '../../components/Footer';
 import { Header } from '../../components/Header';
 import HeadingBar from '../../components/HeadingBar';
 import { WorkInfos } from '../../components/WorkInfos';
+import { AuthContext } from '../../contexts/AuthContext';
 import { HideAndShowHeaderContext } from '../../contexts/HideAndShowHeaderContext';
 import { api } from '../../services/apiClient';
 
@@ -38,6 +39,7 @@ interface WorkProps {
 }
 
 export default function Work({ dataMonograph }: WorkProps) {
+  const { isAuthenticated } = useContext(AuthContext);
   const { navIsOpen } = useContext(HideAndShowHeaderContext);
 
   return (
@@ -55,7 +57,11 @@ export default function Work({ dataMonograph }: WorkProps) {
         bg="White"
         direction="column"
         mx="auto"
-        mt={['5rem', '6.5rem', '7rem']}
+        mt={
+          isAuthenticated
+            ? ['5rem', '6.2rem', '7.5rem']
+            : ['7rem', '11rem', '7.5rem']
+        }
         pb={['2', '4', '6']}
         px={['2', '4', '6']}
         borderRadius="8"

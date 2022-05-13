@@ -27,10 +27,10 @@ export function LoginOrCreate() {
       mt={['3', '6', '0']}
     >
       <NextLink href="/session" passHref>
-        <Link>
+        <Link _hover={{ textDecoration: 'none' }}>
           <Flex
             color="green.400"
-            _hover={{ color: 'green.600' }}
+            _hover={{ color: 'green.300' }}
             align="center"
             justify="center"
           >
@@ -45,9 +45,20 @@ export function LoginOrCreate() {
       {isWideVersion && <Separator />}
       {!isWideVersion && <Box mb={['2', '4']} />}
 
-      <NextLink href="/" passHref>
-        <Link>
-          <Flex _hover={{ color: 'gray.500' }} align="center" justify="center">
+      <NextLink href="/session/createuser" passHref>
+        <Link
+          border="1px"
+          borderColor="gray.100"
+          p="2"
+          borderRadius="4"
+          _hover={{ textDecoration: 'none', borderColor: 'gray.300' }}
+        >
+          <Flex
+            color="gray.500"
+            _hover={{ color: 'gray.300' }}
+            align="center"
+            justify="center"
+          >
             <Icon fontSize={[15, 20]} as={RiUserAddLine} mr="1" />
             <Text fontWeight="500" fontSize={['0.7rem', '1rem']}>
               Criar uma conta

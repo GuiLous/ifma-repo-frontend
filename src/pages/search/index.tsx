@@ -11,6 +11,7 @@ import HeadingBar from '../../components/HeadingBar';
 import { Pagination } from '../../components/Pagination';
 import { SearchBox } from '../../components/SearchBox/SearchBox';
 import WorksList from '../../components/WorksList';
+import { AuthContext } from '../../contexts/AuthContext';
 import { HideAndShowHeaderContext } from '../../contexts/HideAndShowHeaderContext';
 import { api } from '../../services/apiClient';
 
@@ -47,6 +48,8 @@ export default function Search({
 }: SearchProps) {
   const router = useRouter();
 
+  const { isAuthenticated } = useContext(AuthContext);
+
   const { navIsOpen } = useContext(HideAndShowHeaderContext);
   const [page, setPage] = useState(1);
 
@@ -75,7 +78,11 @@ export default function Search({
         bg="White"
         direction="column"
         mx="auto"
-        mt={['5rem', '6.5rem', '7rem']}
+        mt={
+          isAuthenticated
+            ? ['5rem', '6.2rem', '7.5rem']
+            : ['7rem', '11rem', '7.5rem']
+        }
         px={['2', '4', '6']}
         py={['2', '4', '6']}
         borderRadius="8"

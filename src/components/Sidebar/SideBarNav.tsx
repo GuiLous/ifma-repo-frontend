@@ -1,34 +1,77 @@
+import { useContext } from 'react';
 import {
+  RiAddLine,
+  RiCheckLine,
   RiContactsLine,
-  RiDashboardLine,
-  RiGitMergeLine,
-  RiInputMethodLine,
+  RiDoorLine,
+  RiFile2Line,
+  RiFileInfoLine,
+  RiLoader4Line,
+  RiSafeLine,
 } from 'react-icons/ri';
 
-import { Stack } from '@chakra-ui/react';
+import { Box, Stack } from '@chakra-ui/react';
 
+import { AuthContext } from '../../contexts/AuthContext';
 import { NavLink } from './NavLink';
 import { NavSection } from './NavSection';
 
 export function SideBarNav() {
+  const { user } = useContext(AuthContext);
+
   return (
-    <Stack spacing="12" align="flex-start">
-      <NavSection title="GERAL">
-        <NavLink icon={RiDashboardLine} href="/dashboard">
-          Dashboard
+    <Stack mt="12" spacing={['4', '6']} align="flex-start">
+      {user?.isAdmin ? (
+        <NavSection title="PERFIS">
+          <NavLink icon={RiContactsLine} href="/dashboard">
+            Usuários
+          </NavLink>
+        </NavSection>
+      ) : (
+        <NavSection title="PERFIL">
+          <NavLink icon={RiContactsLine} href="/dashboard">
+            Usuário
+          </NavLink>
+        </NavSection>
+      )}
+      <NavSection title="SUBMISSÕES">
+        <NavLink icon={RiAddLine} href="/dashboard/new-submission">
+          Nova Submissão
         </NavLink>
-        <NavLink icon={RiContactsLine} href="/users">
-          Usuários
-        </NavLink>
+        {!user?.isAdmin && (
+          <>
+            <NavLink icon={RiCheckLine} href="/accepts-submissions">
+              Minhas Submissões
+            </NavLink>
+            <NavLink icon={RiLoader4Line} href="/dashboard/review-submissions">
+              Submissões em Análise
+            </NavLink>
+            <NavLink
+              icon={RiFileInfoLine}
+              href="/dashboard/recused-submissions"
+            >
+              Submissões Recusadas
+            </NavLink>
+          </>
+        )}
       </NavSection>
-      <NavSection title="AUTOMAÇÃO">
-        <NavLink icon={RiInputMethodLine} href="/forms">
-          Formulários
-        </NavLink>
-        <NavLink icon={RiGitMergeLine} href="/automation">
-          Automação
-        </NavLink>
-      </NavSection>
+
+      {user?.isAdmin && (
+        <NavSection title="ADMINISTRADOR">
+          <NavLink icon={RiFile2Line} href="/dashboard/recused-submissions">
+            Todas Submissões
+          </NavLink>
+          <NavLink icon={RiFileInfoLine} href="/dashboard/new-submission">
+            Verificar Submissões
+          </NavLink>
+          <NavLink icon={RiAddLine} href="/dashboard/new-submission">
+            Cadastrar Cursos
+          </NavLink>
+          <NavLink icon={RiAddLine} href="/dashboard/new-submission">
+            Cadastrar Área de Conhecimento
+          </NavLink>
+        </NavSection>
+      )}
     </Stack>
   );
 }

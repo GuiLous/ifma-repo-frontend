@@ -1,14 +1,12 @@
 import { useContext, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useMutation } from 'react-query';
 
 import { Box, Divider, Heading, VStack } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
 import { AuthContext } from '../../contexts/AuthContext';
-import { queryClient } from '../../services/queryClient';
-import FormButtons from './FormButtons';
+import { FormButtons } from './FormButtons';
 import { Input } from './Input';
 
 type LoginFormData = {
@@ -37,21 +35,14 @@ export default function FormLogin() {
 
   const handleClick = () => setShow(!show);
 
-  const loginUser = useMutation(
-    async (user: LoginFormData) => {
-      const data = {
-        email: user.email,
-        password: user.password,
-      };
+  async function loginUser(user: LoginFormData) {
+    const data = {
+      email: user.email,
+      password: user.password,
+    };
 
-      await signIn(data);
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('users');
-      },
-    }
-  );
+    await signIn(data);
+  }
 
   const {
     register,
@@ -61,8 +52,8 @@ export default function FormLogin() {
     resolver: yupResolver(loginUserFormSchema),
   });
 
-  const handleLoginUser: SubmitHandler<LoginFormData> = async (values) => {
-    await loginUser.mutateAsync(values);
+  const handleLoginUser: SubmitHandler<LoginFormData> = (values) => {
+    loginUser(values);
   };
 
   return (

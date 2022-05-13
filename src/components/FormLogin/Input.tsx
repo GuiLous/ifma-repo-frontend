@@ -3,6 +3,7 @@ import { FieldError } from 'react-hook-form';
 import {
   RiEyeCloseLine,
   RiEyeLine,
+  RiFileTextLine,
   RiLockPasswordLine,
   RiMessageLine,
 } from 'react-icons/ri';
@@ -50,7 +51,11 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
 
       <InputGroup>
         <InputLeftElement width="2.5rem" pt={['0', '0', '2']}>
-          <Icon as={type === 'email' ? RiMessageLine : RiLockPasswordLine} />
+          {type === 'text' ? (
+            <Icon as={RiFileTextLine} />
+          ) : (
+            <Icon as={type === 'email' ? RiMessageLine : RiLockPasswordLine} />
+          )}
         </InputLeftElement>
 
         <ChakraInput
@@ -72,7 +77,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
           {...rest}
         />
 
-        {type == 'password' && (
+        {type === 'password' && (
           <InputRightElement width="2.5rem" pt={['0', '0', '2']}>
             <Icon
               as={show ? RiEyeLine : RiEyeCloseLine}

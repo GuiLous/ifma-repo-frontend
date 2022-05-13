@@ -9,9 +9,10 @@ import { Header } from '../components/Header';
 import HeadingBar from '../components/HeadingBar';
 import { Pagination } from '../components/Pagination';
 import { SearchBox } from '../components/SearchBox/SearchBox';
+import { Sidebar } from '../components/Sidebar';
 import SideSearch from '../components/SideSearch';
-import { DrawerExample } from '../components/test';
 import WorksList from '../components/WorksList';
+import { AuthContext } from '../contexts/AuthContext';
 import { HideAndShowHeaderContext } from '../contexts/HideAndShowHeaderContext';
 import { api } from '../services/apiClient';
 import { useWorks } from '../services/hooks/useWorks';
@@ -39,6 +40,8 @@ export default function Home({
   dataCourses,
   dataKnowledgeArea,
 }: HomeProps) {
+  const { isAuthenticated } = useContext(AuthContext);
+
   const { navIsOpen } = useContext(HideAndShowHeaderContext);
   const [page, setPage] = useState(1);
   const { data, isLoading, isFetching, error } = useWorks(page, {
@@ -55,11 +58,13 @@ export default function Home({
 
       <Flex
         as="main"
-        maxW={1180}
         direction={['column', 'column', 'row']}
-        w="100%"
         mx="auto"
-        mt={['7rem', '11rem', '7.5rem']}
+        mt={
+          isAuthenticated
+            ? ['5rem', '6.2rem', '7.5rem']
+            : ['7rem', '11rem', '7.5rem']
+        }
         px={['2', '4', '6']}
         py={['2', '4', '6']}
         justify="space-between"
@@ -67,6 +72,7 @@ export default function Home({
         borderRadius="8"
         mb={['3', '3', '6']}
         gap={['2', '4']}
+        boxShadow="lg"
       >
         <Flex width="100%" maxWidth={700} direction="column">
           <Text
@@ -79,8 +85,6 @@ export default function Home({
           </Text>
 
           <SearchBox />
-
-          {/* <DrawerExample /> */}
 
           <HeadingBar textContent="OBRAS MAIS RECENTES" />
 
@@ -120,7 +124,7 @@ export default function Home({
           w="100%"
           maxWidth={[700, 700, 400, 400]}
           direction={['column', 'column', 'column']}
-          mt={['15px', '18px', '103px']}
+          mt={['15px', '18px', '102px']}
           // pl={['1', '0', '6']}
           align="center"
         >

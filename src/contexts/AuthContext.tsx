@@ -39,7 +39,7 @@ export function signOut() {
 
   authChannel.postMessage('signOut');
 
-  Router.push('/');
+  Router.reload();
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
@@ -103,13 +103,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
         email,
         isAdmin: user.isAdmin,
         isAdvisor: user.isAdvisor,
-        fullName: user.fullName,
+        fullName: user.name,
       });
 
       api.defaults.headers['Authorization'] = `Bearer ${token}`;
 
-      Router.push('/');
       authChannel.postMessage('signIn');
+      Router.push('/');
     } catch (err) {
       console.log(err);
     }

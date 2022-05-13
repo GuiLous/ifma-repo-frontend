@@ -31,6 +31,7 @@ export default function SideSearch({
         px={['2', '4']}
         pt={['2', '4']}
         pb={['4', '8', '10']}
+        borderRadius="3px 3px 0 0"
       >
         <Text
           color="White"

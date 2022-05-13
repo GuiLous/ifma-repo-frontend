@@ -32,7 +32,7 @@ export function FormButtons({ isSubmitting }: FormButtonsProps) {
         h={['30px', '40px']}
         w={['70px', '80px']}
       >
-        Entrar
+        Criar
       </Button>
     </Flex>
   );

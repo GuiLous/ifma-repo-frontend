@@ -39,7 +39,7 @@ export function Header() {
     >
       <Logo />
 
-      {!isWideVersion && (
+      {/* {!isWideVersion && isAuthenticated && (
         <>
           <IconButton
             aria-label="Open navigation"
@@ -51,7 +51,7 @@ export function Header() {
             mt="3"
           />
         </>
-      )}
+      )} */}
 
       {isAuthenticated ? (
         <>
