@@ -3,14 +3,12 @@ import {
   RiAddLine,
   RiCheckLine,
   RiContactsLine,
-  RiDoorLine,
   RiFile2Line,
   RiFileInfoLine,
   RiLoader4Line,
-  RiSafeLine,
 } from 'react-icons/ri';
 
-import { Box, Stack } from '@chakra-ui/react';
+import { Stack } from '@chakra-ui/react';
 
 import { AuthContext } from '../../contexts/AuthContext';
 import { NavLink } from './NavLink';

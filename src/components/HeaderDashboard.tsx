@@ -4,7 +4,6 @@ import { RiArrowLeftCircleFill, RiMenuLine } from 'react-icons/ri';
 import {
   Flex,
   Button,
-  HStack,
   Icon,
   IconButton,
   Text,
@@ -12,9 +11,17 @@ import {
   Link,
 } from '@chakra-ui/react';
 
-import { SidebarDrawerContext } from '../../contexts/SidebarDrawerContext';
+import { SidebarDrawerContext } from '../contexts/SidebarDrawerContext';
 
-export function HeaderProfileDashboard() {
+interface HeaderDashboardProps {
+  headerTitle: string;
+  sideBarPixelDif?: string;
+}
+
+export function HeaderDashboard({
+  headerTitle,
+  sideBarPixelDif = '330px',
+}: HeaderDashboardProps) {
   const { onOpen } = useContext(SidebarDrawerContext);
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -34,10 +41,11 @@ export function HeaderProfileDashboard() {
       mb="4"
       boxShadow="md"
       ml="auto"
-      maxWidth={['100vw', '100vw', '100vw', 'calc(100vw - 330px)']}
+      mr="2"
+      maxWidth={['100vw', '100vw', '100vw', `calc(100vw - ${sideBarPixelDif})`]}
     >
       <Text color="gray.500" fontWeight={400} fontSize={['md', 'xl', '2xl']}>
-        Ajustes do Perfil
+        {headerTitle}
       </Text>
 
       <Flex align="center" justify="center">
@@ -48,12 +56,10 @@ export function HeaderProfileDashboard() {
           variant="unstyled"
           mr={['0', '1', '2', '4']}
         >
-          <HStack spacing="1" borderRight="1px" pr="3">
+          <Link href="/" display="flex" alignItems="center" gap="1">
             <Icon fontSize={['20', '22']} as={RiArrowLeftCircleFill} />
-            <Link href="/" display="inline">
-              Voltar
-            </Link>
-          </HStack>
+            <Text>Voltar</Text>
+          </Link>
         </Button>
         {!isWideVersion && (
           <IconButton

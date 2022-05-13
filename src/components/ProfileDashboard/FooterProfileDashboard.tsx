@@ -14,6 +14,7 @@ export function FooterProfileDashboard() {
       w="100%"
       boxShadow="lg"
       ml="auto"
+      mr="2"
       maxWidth={['100vw', '100vw', '100vw', 'calc(100vw - 330px)']}
     >
       <Text

@@ -1,24 +1,6 @@
-import { RiPencilLine } from 'react-icons/ri';
+import { Flex, SlideFade } from '@chakra-ui/react';
 
-import {
-  Box,
-  Button,
-  Checkbox,
-  Flex,
-  Icon,
-  Link,
-  SlideFade,
-  Table,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
-  useBreakpointValue,
-} from '@chakra-ui/react';
-
-import { HeaderAdminDashboard } from './HeaderAdminDashboard';
+import { HeaderDashboard } from '../HeaderDashboard';
 import { TableUsersList } from './TableUsersList';
 
 interface AdminDashboardProps {
@@ -26,26 +8,22 @@ interface AdminDashboardProps {
 }
 
 export function AdminDashboard({ isOpen }: AdminDashboardProps) {
-  const isWideVersion = useBreakpointValue({
-    base: false,
-    md: true,
-  });
-
   return (
     <Flex w="100%" direction="column">
       <SlideFade in={isOpen} offsetX="100px">
-        <HeaderAdminDashboard />
+        <HeaderDashboard sideBarPixelDif="350px" headerTitle="Administrador" />
 
         <Flex
           w="100%"
           bg="White"
-          as="form"
           align="flex-start"
           py={['8', '10', '12']}
           px={['2', '6', '10']}
           borderRadius="6"
           boxShadow="md"
           direction="column"
+          ml="auto"
+          maxWidth={['100vw', '100vw', '100vw', 'calc(100vw - 350px)']}
         >
           <TableUsersList />
         </Flex>

@@ -1,10 +1,8 @@
-import { useState } from 'react';
 import { RiPencilLine } from 'react-icons/ri';
 
 import {
   Box,
   Button,
-  Checkbox,
   Icon,
   Table,
   Tbody,

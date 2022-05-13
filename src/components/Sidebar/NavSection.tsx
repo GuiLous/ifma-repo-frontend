@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { ReactNode, useEffect } from 'react';
 import { RiArrowDropDownLine } from 'react-icons/ri';
 
