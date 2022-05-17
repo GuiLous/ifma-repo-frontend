@@ -10,7 +10,7 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 
-export function SubmissionsAcceptList() {
+export function SubmissionsRecusedList() {
   const isWideVersion = useBreakpointValue({
     base: false,
     md: true,
@@ -21,8 +21,7 @@ export function SubmissionsAcceptList() {
       <Thead>
         <Tr>
           <Th color="gray.300">Título</Th>
-          <Th color="gray.300">Data de publicação</Th>
-          <Th color="gray.300">Verificada?</Th>
+          <Th color="gray.300">Observações</Th>
         </Tr>
       </Thead>
       <Tbody>
@@ -39,9 +38,8 @@ export function SubmissionsAcceptList() {
               </Text>
             </Box>
           </Td>
-          <Td fontSize={['0.8rem', '0.9rem', '1rem']}>22-01-2022</Td>
           <Td fontSize={['0.8rem', '0.9rem', '1rem']} color="green.500">
-            True
+            Arquivo do pdf corrompido
           </Td>
         </Tr>
         <Tr>
@@ -57,8 +55,9 @@ export function SubmissionsAcceptList() {
               </Text>
             </Box>
           </Td>
-          <Td fontSize={['0.8rem', '0.9rem', '1rem']}>22-01-2022</Td>
-          <Td fontSize={['0.8rem', '0.9rem', '1rem']}>True</Td>
+          <Td fontSize={['0.8rem', '0.9rem', '1rem']}>
+            Não foi especificado o resumo
+          </Td>
         </Tr>
         <Tr>
           <Td>
@@ -73,8 +72,9 @@ export function SubmissionsAcceptList() {
               </Text>
             </Box>
           </Td>
-          <Td fontSize={['0.8rem', '0.9rem', '1rem']}>22-01-2022</Td>
-          <Td fontSize={['0.8rem', '0.9rem', '1rem']}>True</Td>
+          <Td fontSize={['0.8rem', '0.9rem', '1rem']}>
+            Não foi especificado o resumo
+          </Td>
         </Tr>
         <Tr>
           <Td>
@@ -89,8 +89,9 @@ export function SubmissionsAcceptList() {
               </Text>
             </Box>
           </Td>
-          <Td fontSize={['0.8rem', '0.9rem', '1rem']}>22-01-2022</Td>
-          <Td fontSize={['0.8rem', '0.9rem', '1rem']}>True</Td>
+          <Td fontSize={['0.8rem', '0.9rem', '1rem']}>
+            Não foi especificado o resumo
+          </Td>
         </Tr>
         <Tr>
           <Td>
@@ -105,8 +106,9 @@ export function SubmissionsAcceptList() {
               </Text>
             </Box>
           </Td>
-          <Td fontSize={['0.8rem', '0.9rem', '1rem']}>22-01-2022</Td>
-          <Td fontSize={['0.8rem', '0.9rem', '1rem']}>True</Td>
+          <Td fontSize={['0.8rem', '0.9rem', '1rem']}>
+            Não foi especificado o resumo
+          </Td>
         </Tr>
         <Tr>
           <Td>
@@ -121,8 +123,9 @@ export function SubmissionsAcceptList() {
               </Text>
             </Box>
           </Td>
-          <Td fontSize={['0.8rem', '0.9rem', '1rem']}>22-01-2022</Td>
-          <Td fontSize={['0.8rem', '0.9rem', '1rem']}>True</Td>
+          <Td fontSize={['0.8rem', '0.9rem', '1rem']}>
+            Não foi especificado o resumo
+          </Td>
         </Tr>
       </Tbody>
     </Table>

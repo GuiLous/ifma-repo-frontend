@@ -32,30 +32,28 @@ export function SideBarNav() {
           </NavLink>
         </NavSection>
       )}
-      <NavSection title="SUBMISSÕES">
-        <NavLink icon={RiAddLine} href="/dashboard/new-submission">
-          Nova Submissão
-        </NavLink>
-        {!user?.isAdmin && (
-          <>
-            <NavLink icon={RiCheckLine} href="/accepts-submissions">
-              Minhas Submissões
-            </NavLink>
-            <NavLink icon={RiLoader4Line} href="/dashboard/review-submissions">
-              Submissões em Análise
-            </NavLink>
-            <NavLink
-              icon={RiFileInfoLine}
-              href="/dashboard/recused-submissions"
-            >
-              Submissões Recusadas
-            </NavLink>
-          </>
-        )}
-      </NavSection>
+      {!user?.isAdmin && (
+        <NavSection title="SUBMISSÕES">
+          <NavLink icon={RiAddLine} href="/new-submission">
+            Nova Submissão
+          </NavLink>
+          <NavLink icon={RiCheckLine} href="/accepts-submissions">
+            Minhas Submissões
+          </NavLink>
+          <NavLink icon={RiLoader4Line} href="/review-submissions">
+            Submissões em Análise
+          </NavLink>
+          <NavLink icon={RiFileInfoLine} href="/recused-submissions">
+            Submissões Recusadas
+          </NavLink>
+        </NavSection>
+      )}
 
       {user?.isAdmin && (
         <NavSection title="ADMINISTRADOR">
+          <NavLink icon={RiAddLine} href="/dashboard/new-submission">
+            Nova Submissão
+          </NavLink>
           <NavLink icon={RiFile2Line} href="/dashboard/recused-submissions">
             Todas Submissões
           </NavLink>

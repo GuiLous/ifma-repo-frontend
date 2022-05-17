@@ -1,6 +1,33 @@
+import { useContext, useState } from 'react';
+import { useMutation } from 'react-query';
+
 import { Button, Checkbox, Flex, Text } from '@chakra-ui/react';
 
+import { AuthContext } from '../../contexts/AuthContext';
+import { api } from '../../services/apiClient';
+import { queryClient } from '../../services/queryClient';
+
 export function FooterProfileDashboard() {
+  const { user, signOut } = useContext(AuthContext);
+
+  const [isCheckDelete, setIsCheckDelete] = useState(false);
+
+  const deleteUser = useMutation(
+    async () => {
+      await api.delete('/users/delete-user', { data: { email: user?.email } });
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('users');
+      },
+    }
+  );
+
+  async function handleDeleteUser() {
+    await deleteUser.mutateAsync();
+    await signOut();
+  }
+
   return (
     <Flex
       bg="White"
@@ -27,16 +54,26 @@ export function FooterProfileDashboard() {
         Excluir Perfil?
       </Text>
       <Button
+        type="button"
         color="red.300"
         borderColor="gray.200"
-        _hover={{ bg: 'red.200', color: 'White', borderColor: 'red.200' }}
+        _hover={
+          isCheckDelete
+            ? { bg: 'red.200', color: 'White', borderColor: 'red.200' }
+            : {}
+        }
         variant="outline"
         mr="3"
         mb={['2', '2', '0']}
+        onClick={handleDeleteUser}
+        isDisabled={!isCheckDelete}
       >
         Excluir
       </Button>
-      <Checkbox>
+      <Checkbox
+        isChecked={isCheckDelete}
+        onChange={() => setIsCheckDelete(!isCheckDelete)}
+      >
         <Text fontSize={['0.8rem', '0.9rem', '1rem']}>
           Desejo excluir minha conta.
         </Text>

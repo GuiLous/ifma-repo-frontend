@@ -8,7 +8,7 @@ import { Pagination } from '../../components/Pagination';
 import { Sidebar } from '../../components/Sidebar';
 import { SubmissionsAcceptList } from '../../components/SubmissionsAcceptList';
 
-export default function AcceptsSubmissions() {
+export default function ReviewSubmissions() {
   const { isOpen, onToggle } = useDisclosure();
   const [page, setPage] = useState(1);
 
@@ -23,7 +23,7 @@ export default function AcceptsSubmissions() {
       <Flex w="100%" direction="column">
         <SlideFade in={isOpen} offsetX="100px">
           <HeaderDashboard
-            headerTitle="Submissões Verificadas"
+            headerTitle="Submissões em Análise"
             sideBarPixelDif="335px"
           />
 

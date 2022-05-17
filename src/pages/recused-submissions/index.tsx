@@ -6,9 +6,9 @@ import { Flex, SlideFade, useDisclosure } from '@chakra-ui/react';
 import { HeaderDashboard } from '../../components/HeaderDashboard';
 import { Pagination } from '../../components/Pagination';
 import { Sidebar } from '../../components/Sidebar';
-import { SubmissionsAcceptList } from '../../components/SubmissionsAcceptList';
+import { SubmissionsRecusedList } from '../../components/SubmissionsRecusedList';
 
-export default function AcceptsSubmissions() {
+export default function RecusedSubmissions() {
   const { isOpen, onToggle } = useDisclosure();
   const [page, setPage] = useState(1);
 
@@ -23,7 +23,7 @@ export default function AcceptsSubmissions() {
       <Flex w="100%" direction="column">
         <SlideFade in={isOpen} offsetX="100px">
           <HeaderDashboard
-            headerTitle="Submissões Verificadas"
+            headerTitle="Submissões Recusadas"
             sideBarPixelDif="335px"
           />
 
@@ -40,7 +40,7 @@ export default function AcceptsSubmissions() {
             mr="2"
             maxWidth={['100vw', '100vw', '100vw', 'calc(100vw - 335px)']}
           >
-            <SubmissionsAcceptList />
+            <SubmissionsRecusedList />
             <Pagination
               totalCountOfRegisters={100}
               currentPage={page}

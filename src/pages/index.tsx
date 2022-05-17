@@ -9,7 +9,6 @@ import { Header } from '../components/Header';
 import HeadingBar from '../components/HeadingBar';
 import { Pagination } from '../components/Pagination';
 import { SearchBox } from '../components/SearchBox/SearchBox';
-import { Sidebar } from '../components/Sidebar';
 import SideSearch from '../components/SideSearch';
 import WorksList from '../components/WorksList';
 import { AuthContext } from '../contexts/AuthContext';

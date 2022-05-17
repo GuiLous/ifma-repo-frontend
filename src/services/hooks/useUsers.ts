@@ -42,7 +42,7 @@ export async function getWorks(page: number): Promise<GetWorksResponse> {
 }
 
 export function useWorks(page: number, options: UseQueryOptions) {
-  return useQuery(['works', page], () => getWorks(page), {
+  return useQuery(['users', page], () => getWorks(page), {
     staleTime: 1000 * 60 * 10, // 10 minutes
     ...options,
   }) as UseQueryResult<GetWorksResponse, unknown>;
