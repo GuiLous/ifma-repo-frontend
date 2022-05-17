@@ -1,7 +1,14 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 
-import { Flex, SlideFade, useDisclosure } from '@chakra-ui/react';
+import {
+  Flex,
+  Grid,
+  GridItem,
+  SlideFade,
+  Text,
+  useDisclosure,
+} from '@chakra-ui/react';
 
 import { HeaderDashboard } from '../../components/HeaderDashboard';
 import { Pagination } from '../../components/Pagination';
@@ -30,7 +37,6 @@ export default function AcceptsSubmissions() {
           <Flex
             w="100%"
             bg="White"
-            as="form"
             py={['8', '10', '12']}
             px={['2', '6', '10']}
             borderRadius="6"
@@ -41,6 +47,7 @@ export default function AcceptsSubmissions() {
             maxWidth={['100vw', '100vw', '100vw', 'calc(100vw - 335px)']}
           >
             <SubmissionsAcceptList />
+
             <Pagination
               totalCountOfRegisters={100}
               currentPage={page}
