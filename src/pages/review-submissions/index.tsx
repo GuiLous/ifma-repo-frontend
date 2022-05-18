@@ -6,7 +6,7 @@ import { Flex, SlideFade, useDisclosure } from '@chakra-ui/react';
 import { HeaderDashboard } from '../../components/HeaderDashboard';
 import { Pagination } from '../../components/Pagination';
 import { Sidebar } from '../../components/Sidebar';
-import { SubmissionsAcceptList } from '../../components/SubmissionsAcceptList';
+import { SubmissionsList } from '../../components/SubmissionsList';
 
 export default function ReviewSubmissions() {
   const { isOpen, onToggle } = useDisclosure();
@@ -40,7 +40,7 @@ export default function ReviewSubmissions() {
             mr="2"
             maxWidth={['100vw', '100vw', '100vw', 'calc(100vw - 335px)']}
           >
-            <SubmissionsAcceptList />
+            {/* <SubmissionsList /> */}
             <Pagination
               totalCountOfRegisters={100}
               currentPage={page}

@@ -33,12 +33,13 @@ interface SearchProps {
 }
 
 export type routerQueryParams = {
-  title: string;
-  author: string;
-  advisor: string;
-  palavras_chave: string;
-  course_id: string;
-  knowledge_id: string;
+  title?: string;
+  author?: string;
+  advisor?: string;
+  palavras_chave?: string;
+  course_id?: string;
+  knowledge_id?: string;
+  email?: string;
 };
 
 export default function Search({

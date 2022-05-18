@@ -8,6 +8,7 @@ type Work = {
   title: string;
   authors: string[];
   published_date: string;
+  verified: boolean;
 };
 
 type GetWorksResponse = {
@@ -20,12 +21,13 @@ export async function getWorksFiltered(
   dataSearch: routerQueryParams
 ): Promise<GetWorksResponse> {
   const params = {
-    title: dataSearch.title,
-    author: dataSearch.author,
-    advisor: dataSearch.advisor,
-    palavras_chave: dataSearch.palavras_chave,
-    course_id: dataSearch.course_id,
-    knowledge_id: dataSearch.knowledge_id,
+    title: dataSearch?.title,
+    author: dataSearch?.author,
+    advisor: dataSearch?.advisor,
+    palavras_chave: dataSearch?.palavras_chave,
+    course_id: dataSearch?.course_id,
+    knowledge_id: dataSearch?.knowledge_id,
+    email: dataSearch?.email,
   };
 
   const { data } = await api.get(`/monographs/search/${page}`, { params });
@@ -45,6 +47,7 @@ export async function getWorksFiltered(
           year: 'numeric',
         }
       ),
+      verified: monograph.verified,
     };
   });
 
