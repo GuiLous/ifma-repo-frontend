@@ -1,6 +1,6 @@
 import { useContext, useState } from 'react';
 
-import { Box, Flex, SimpleGrid, Slide, Spinner, Text } from '@chakra-ui/react';
+import { Box, Flex, Slide, Spinner, Text } from '@chakra-ui/react';
 import { GetServerSideProps } from 'next';
 import { useRouter } from 'next/router';
 
@@ -39,7 +39,7 @@ export type routerQueryParams = {
   palavras_chave?: string;
   course_id?: string;
   knowledge_id?: string;
-  email?: string;
+  user_email?: string;
 };
 
 export default function Search({
@@ -68,7 +68,7 @@ export default function Search({
     <Box maxWidth={1180} mx="auto">
       <title>Search | RepoIFMA</title>
 
-      <Slide direction="top" in={navIsOpen}>
+      <Slide direction="top" in={navIsOpen} style={{ zIndex: 100 }}>
         <Header />
       </Slide>
 
@@ -89,19 +89,7 @@ export default function Search({
         borderRadius="8"
         mb={['3', '3', '6']}
       >
-        <SimpleGrid columns={[1, 1, 2]}>
-          <Box>
-            <Text
-              color="gray.400"
-              fontWeight={600}
-              fontSize={['0.6rem', '0.7rem']}
-              mb={['2px', '4px']}
-            >
-              PESQUISA RÁPIDA
-            </Text>
-            <SearchBox />
-          </Box>
-        </SimpleGrid>
+        <SearchBox />
 
         <HeadingBar textContent="Resultados da busca" />
 
@@ -123,7 +111,7 @@ export default function Search({
             <Pagination
               totalCountOfRegisters={data?.total_count}
               currentPage={page}
-              totalRegisterPerPage={data?.works.length}
+              totalRegistersResponse={data?.works.length}
               onPageChange={setPage}
             />
           </>

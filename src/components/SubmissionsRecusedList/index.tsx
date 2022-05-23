@@ -1,6 +1,11 @@
+import { RiPencilLine } from 'react-icons/ri';
+
 import {
   Box,
+  Button,
+  Icon,
   Table,
+  TableContainer,
   Tbody,
   Td,
   Text,
@@ -10,124 +15,112 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 
-export function SubmissionsRecusedList() {
+interface Work {
+  id: string;
+  title: string;
+  published_date: string;
+  comments_if_not_accept: string;
+}
+
+interface SubmissionsRecusedListProps {
+  works: Work[];
+}
+
+export function SubmissionsRecusedList({ works }: SubmissionsRecusedListProps) {
   const isWideVersion = useBreakpointValue({
     base: false,
     md: true,
   });
 
   return (
-    <Table colorScheme="green">
-      <Thead>
-        <Tr>
-          <Th color="gray.300">Título</Th>
-          <Th color="gray.300">Observações</Th>
-        </Tr>
-      </Thead>
-      <Tbody>
-        <Tr>
-          <Td>
-            <Box>
-              <Text
-                color="purple.600"
-                fontSize={['0.8rem', '0.9rem', '1rem']}
-                fontWeight="bold"
-              >
-                O uso de medicamentos para o tratamento de cancer nos estágios
-                mais avançados
-              </Text>
-            </Box>
-          </Td>
-          <Td fontSize={['0.8rem', '0.9rem', '1rem']} color="green.500">
-            Arquivo do pdf corrompido
-          </Td>
-        </Tr>
-        <Tr>
-          <Td>
-            <Box>
-              <Text
-                color="purple.600"
-                fontSize={['0.8rem', '0.9rem', '1rem']}
-                fontWeight="bold"
-              >
-                O uso de medicamentos para o tratamento de cancer nos estágios
-                mais avançados
-              </Text>
-            </Box>
-          </Td>
-          <Td fontSize={['0.8rem', '0.9rem', '1rem']}>
-            Não foi especificado o resumo
-          </Td>
-        </Tr>
-        <Tr>
-          <Td>
-            <Box>
-              <Text
-                color="purple.600"
-                fontSize={['0.8rem', '0.9rem', '1rem']}
-                fontWeight="bold"
-              >
-                O uso de medicamentos para o tratamento de cancer nos estágios
-                mais avançados
-              </Text>
-            </Box>
-          </Td>
-          <Td fontSize={['0.8rem', '0.9rem', '1rem']}>
-            Não foi especificado o resumo
-          </Td>
-        </Tr>
-        <Tr>
-          <Td>
-            <Box>
-              <Text
-                color="purple.600"
-                fontSize={['0.8rem', '0.9rem', '1rem']}
-                fontWeight="bold"
-              >
-                O uso de medicamentos para o tratamento de cancer nos estágios
-                mais avançados
-              </Text>
-            </Box>
-          </Td>
-          <Td fontSize={['0.8rem', '0.9rem', '1rem']}>
-            Não foi especificado o resumo
-          </Td>
-        </Tr>
-        <Tr>
-          <Td>
-            <Box>
-              <Text
-                color="purple.600"
-                fontSize={['0.8rem', '0.9rem', '1rem']}
-                fontWeight="bold"
-              >
-                O uso de medicamentos para o tratamento de cancer nos estágios
-                mais avançados
-              </Text>
-            </Box>
-          </Td>
-          <Td fontSize={['0.8rem', '0.9rem', '1rem']}>
-            Não foi especificado o resumo
-          </Td>
-        </Tr>
-        <Tr>
-          <Td>
-            <Box>
-              <Text
-                color="purple.600"
-                fontSize={['0.8rem', '0.9rem', '1rem']}
-                fontWeight="bold"
-              >
-                O uso de medicamentos para o tratamento de cancer nos estágios
-                mais avançados
-              </Text>
-            </Box>
-          </Td>
-          <Td fontSize={['0.8rem', '0.9rem', '1rem']}>
-            Não foi especificado o resumo
-          </Td>
-        </Tr>
-      </Tbody>
-    </Table>
+    <>
+      {isWideVersion ? (
+        <Table colorScheme="green" size="lg">
+          <Thead>
+            <Tr>
+              <Th color="gray.300" w="100%" maxWidth="40%">
+                Título
+              </Th>
+              <Th color="gray.300">Data de publicação</Th>
+              <Th color="gray.300">Comentário</Th>
+              <Th color="gray.300">Ação</Th>
+            </Tr>
+          </Thead>
+          <Tbody>
+            {works?.map((work) => (
+              <Tr key={work?.id}>
+                <Td
+                  color="red.500"
+                  fontSize={['0.7rem', '0.9rem', '1rem']}
+                  fontWeight="bold"
+                >
+                  <Text>{work?.title}</Text>
+                </Td>
+                <Td fontSize={['0.8rem', '0.9rem', '1rem']}>
+                  {work?.published_date}
+                </Td>
+                <Td fontSize={['0.8rem', '0.9rem', '1rem']}>
+                  {work?.comments_if_not_accept}
+                </Td>
+                <Td>
+                  <Button
+                    as="a"
+                    size="sm"
+                    fontSize="sm"
+                    colorScheme="yellow"
+                    leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
+                  >
+                    {isWideVersion ? 'Editar' : ''}
+                  </Button>
+                </Td>
+              </Tr>
+            ))}
+          </Tbody>
+        </Table>
+      ) : (
+        <TableContainer>
+          <Table colorScheme="green" size="lg">
+            <Thead>
+              <Tr>
+                <Th color="gray.300">Título</Th>
+                <Th color="gray.300">Data de publicação</Th>
+                <Th color="gray.300">Comentário</Th>
+                <Th color="gray.300">Ação</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {works?.map((work) => (
+                <Tr key={work?.id}>
+                  <Td
+                    color="red.500"
+                    fontSize={['0.7rem', '0.9rem', '1rem']}
+                    fontWeight="bold"
+                  >
+                    <Text>{work?.title}</Text>
+                  </Td>
+                  <Td fontSize={['0.8rem', '0.9rem', '1rem']}>
+                    {work?.published_date}
+                  </Td>
+                  <Td fontSize={['0.8rem', '0.9rem', '1rem']}>
+                    {work?.comments_if_not_accept}
+                  </Td>
+                  <Td>
+                    <Button
+                      as="a"
+                      size="sm"
+                      fontSize="sm"
+                      colorScheme="yellow"
+                      leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
+                    >
+                      {isWideVersion ? 'Editar' : ''}
+                    </Button>
+                  </Td>
+                </Tr>
+              ))}
+            </Tbody>
+          </Table>
+        </TableContainer>
+      )}
+    </>
   );
 }

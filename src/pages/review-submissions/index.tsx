@@ -1,16 +1,47 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 
-import { Flex, SlideFade, useDisclosure } from '@chakra-ui/react';
+import {
+  Flex,
+  SlideFade,
+  Spinner,
+  Text,
+  useDisclosure,
+} from '@chakra-ui/react';
+import { GetServerSideProps } from 'next';
 
 import { HeaderDashboard } from '../../components/HeaderDashboard';
 import { Pagination } from '../../components/Pagination';
 import { Sidebar } from '../../components/Sidebar';
 import { SubmissionsList } from '../../components/SubmissionsList';
+import { setupAPIClient } from '../../services/api';
+import { useWorksNotVerified } from '../../services/hooks/useWorksNotVerified';
 
-export default function ReviewSubmissions() {
+interface Work {
+  id: string;
+  title: string;
+  published_date: string;
+  verified: boolean;
+}
+
+interface ReviewSubmissionsProps {
+  works: Work[];
+  user_email: string;
+}
+
+export default function ReviewSubmissions({
+  works,
+  user_email,
+}: ReviewSubmissionsProps) {
   const { isOpen, onToggle } = useDisclosure();
   const [page, setPage] = useState(1);
+
+  const { data, isLoading, isFetching, error } = useWorksNotVerified(
+    page,
+    user_email,
+    {
+      initialData: works,
+    }
+  );
 
   useEffect(() => {
     onToggle();
@@ -40,16 +71,42 @@ export default function ReviewSubmissions() {
             mr="2"
             maxWidth={['100vw', '100vw', '100vw', 'calc(100vw - 335px)']}
           >
-            {/* <SubmissionsList /> */}
-            <Pagination
-              totalCountOfRegisters={100}
-              currentPage={page}
-              totalRegisterPerPage={10}
-              onPageChange={setPage}
-            />
+            {!isLoading && isFetching && (
+              <Spinner size="sm" colorScheme="gray.500" ml="4" mb="4" />
+            )}
+            {isLoading ? (
+              <Flex justify="center">
+                <Spinner />
+              </Flex>
+            ) : error ? (
+              <Flex justify="center">
+                <Text>Falha ao carregar dados.</Text>
+              </Flex>
+            ) : (
+              <>
+                <SubmissionsList works={data?.works} />
+                <Pagination
+                  totalCountOfRegisters={data?.total_count}
+                  currentPage={page}
+                  totalRegistersResponse={data?.works.length}
+                  onPageChange={setPage}
+                />
+              </>
+            )}
           </Flex>
         </SlideFade>
       </Flex>
     </Flex>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const apiClient = setupAPIClient(ctx);
+  const { data } = await apiClient.get('/users/profile');
+
+  return {
+    props: {
+      user_email: data?.email,
+    },
+  };
+};

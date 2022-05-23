@@ -32,7 +32,7 @@ export function AdminDashboard({ isOpen }: AdminDashboardProps) {
           <Pagination
             totalCountOfRegisters={100}
             currentPage={page}
-            totalRegisterPerPage={10}
+            totalRegistersResponse={10}
             onPageChange={setPage}
           />
         </Flex>

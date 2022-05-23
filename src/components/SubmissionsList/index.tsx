@@ -4,6 +4,7 @@ import {
   TableContainer,
   Tbody,
   Td,
+  Text,
   Th,
   Thead,
   Tr,
@@ -24,7 +25,7 @@ interface SubmissionsListProps {
 export function SubmissionsList({ works }: SubmissionsListProps) {
   const isWideVersion = useBreakpointValue({
     base: false,
-    sm: true,
+    md: true,
   });
 
   return (
@@ -33,7 +34,9 @@ export function SubmissionsList({ works }: SubmissionsListProps) {
         <Table colorScheme="green" size="lg">
           <Thead>
             <Tr>
-              <Th color="gray.300">Título</Th>
+              <Th color="gray.300" w="100%" maxWidth="50%">
+                Título
+              </Th>
               <Th color="gray.300">Data de publicação</Th>
               <Th color="gray.300">Status?</Th>
             </Tr>
@@ -42,11 +45,15 @@ export function SubmissionsList({ works }: SubmissionsListProps) {
             {works?.map((work) => (
               <Tr key={work?.id}>
                 <Td
-                  color="purple.600"
+                  color={work?.verified ? 'green.500' : 'yellow.500'}
                   fontSize={['0.7rem', '0.9rem', '1rem']}
                   fontWeight="bold"
                 >
-                  <Link href={`/work-page/${work?.id}`}>{work?.title}</Link>
+                  {work?.verified ? (
+                    <Link href={`/work-page/${work?.id}`}>{work?.title}</Link>
+                  ) : (
+                    <Text>{work?.title}</Text>
+                  )}
                 </Td>
                 <Td fontSize={['0.8rem', '0.9rem', '1rem']}>
                   {work?.published_date}
@@ -84,8 +91,11 @@ export function SubmissionsList({ works }: SubmissionsListProps) {
                   <Td fontSize={['0.8rem', '0.9rem', '1rem']}>
                     {work?.published_date}
                   </Td>
-                  <Td fontSize={['0.8rem', '0.9rem', '1rem']} color="green.500">
-                    verificado
+                  <Td
+                    fontSize={['0.8rem', '0.9rem', '1rem']}
+                    color={work?.verified ? 'green.500' : 'yellow.500'}
+                  >
+                    {work?.verified ? 'Verificado' : 'Pendente'}
                   </Td>
                 </Tr>
               ))}

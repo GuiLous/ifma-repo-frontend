@@ -6,7 +6,7 @@ interface PaginationProps {
   totalCountOfRegisters: number;
   registerPerPage?: number;
   currentPage?: number;
-  totalRegisterPerPage: number;
+  totalRegistersResponse: number;
   onPageChange: (page: number) => void;
 }
 
@@ -24,7 +24,7 @@ export function Pagination({
   totalCountOfRegisters,
   registerPerPage = 10,
   currentPage = 1,
-  totalRegisterPerPage,
+  totalRegistersResponse,
   onPageChange,
 }: PaginationProps) {
   const lastPage = Math.ceil(totalCountOfRegisters / registerPerPage);
@@ -55,9 +55,18 @@ export function Pagination({
       fontWeight="normal"
     >
       <Box>
-        <strong>{(currentPage - 1) * registerPerPage + 1}</strong> -{' '}
-        <strong>{totalRegisterPerPage}</strong> de{' '}
-        <strong>{totalCountOfRegisters}</strong>
+        <strong>
+          {totalRegistersResponse > 0
+            ? (currentPage - 1) * registerPerPage + 1
+            : 0}
+        </strong>{' '}
+        -{' '}
+        <strong>
+          {totalRegistersResponse < registerPerPage
+            ? registerPerPage * (currentPage - 1) + totalRegistersResponse
+            : registerPerPage * currentPage}
+        </strong>{' '}
+        de <strong>{totalCountOfRegisters} registros</strong>
       </Box>
       <Stack direction="row" spacing={['1', '2']}>
         {currentPage > 1 + siblingsCount && (

@@ -28,13 +28,13 @@ interface AcceptsSubmissionsProps {
 }
 
 export default function AcceptsSubmissions({ works }: AcceptsSubmissionsProps) {
+  const { user } = useContext(AuthContext);
+
   const { isOpen, onToggle } = useDisclosure();
   const [page, setPage] = useState(1);
 
-  const { user } = useContext(AuthContext);
-
   const dataSearch = {
-    email: user?.email,
+    user_email: user?.email,
   };
 
   const { data, isLoading, isFetching, error } = useSearchWorks(
@@ -89,7 +89,7 @@ export default function AcceptsSubmissions({ works }: AcceptsSubmissionsProps) {
                 <Pagination
                   totalCountOfRegisters={data?.total_count}
                   currentPage={page}
-                  totalRegisterPerPage={data?.works.length}
+                  totalRegistersResponse={data?.works.length}
                   onPageChange={setPage}
                 />
               </>

@@ -18,17 +18,7 @@ export default function ItemSearch({ title, children }: ItemSearchProps) {
       >
         {title}:
       </Heading>
-      <Flex
-        flex="1"
-        py="2"
-        pl="2"
-        w="100%"
-        borderRadius="4"
-        border="2px"
-        borderColor="green.150"
-        bg="White"
-        _hover={{ borderColor: 'green.200' }}
-      >
+      <Flex flex="1" w="100%">
         {children}
       </Flex>
     </Stack>

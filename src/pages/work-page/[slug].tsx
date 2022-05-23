@@ -46,7 +46,7 @@ export default function Work({ dataMonograph }: WorkProps) {
     <Box maxWidth={1180} mx="auto">
       <title>Obra | RepoIFMA</title>
 
-      <Slide direction="top" in={navIsOpen}>
+      <Slide direction="top" in={navIsOpen} style={{ zIndex: 100 }}>
         <Header />
       </Slide>
 

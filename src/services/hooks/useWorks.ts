@@ -15,7 +15,7 @@ type GetWorksResponse = {
 };
 
 export async function getWorks(page: number): Promise<GetWorksResponse> {
-  const { data } = await api.get(`/monographs/${page}`);
+  const { data } = await api.get(`/monographs/all/${page}`);
 
   const { total_count, monographs } = data;
 
@@ -42,7 +42,7 @@ export async function getWorks(page: number): Promise<GetWorksResponse> {
 }
 
 export function useWorks(page: number, options: UseQueryOptions) {
-  return useQuery(['works', page], () => getWorks(page), {
+  return useQuery(['works-verified', page], () => getWorks(page), {
     staleTime: 1000 * 60 * 10, // 10 minutes
     ...options,
   }) as UseQueryResult<GetWorksResponse, unknown>;

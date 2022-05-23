@@ -43,6 +43,7 @@ export default function Home({
 
   const { navIsOpen } = useContext(HideAndShowHeaderContext);
   const [page, setPage] = useState(1);
+
   const { data, isLoading, isFetching, error } = useWorks(page, {
     initialData: works,
   });
@@ -51,7 +52,7 @@ export default function Home({
     <Box maxWidth={1180} mx="auto">
       <title>Home | RepoIFMA</title>
 
-      <Slide direction="top" in={navIsOpen}>
+      <Slide direction="top" in={navIsOpen} style={{ zIndex: 100 }}>
         <Header />
       </Slide>
 
@@ -74,15 +75,6 @@ export default function Home({
         boxShadow="lg"
       >
         <Flex width="100%" maxWidth={700} direction="column">
-          <Text
-            color="gray.400"
-            fontWeight={600}
-            fontSize={['0.6rem', '0.7rem']}
-            mb={['2px', '4px']}
-          >
-            PESQUISA RÁPIDA
-          </Text>
-
           <SearchBox />
 
           <HeadingBar textContent="OBRAS MAIS RECENTES" />
@@ -105,7 +97,7 @@ export default function Home({
               <Pagination
                 totalCountOfRegisters={data?.total_count}
                 currentPage={page}
-                totalRegisterPerPage={data?.works.length}
+                totalRegistersResponse={data?.works.length}
                 onPageChange={setPage}
               />
             </>

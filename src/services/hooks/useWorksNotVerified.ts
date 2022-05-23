@@ -1,12 +1,10 @@
 import { useQuery, UseQueryOptions, UseQueryResult } from 'react-query';
 
-import { routerQueryParams } from '../../pages/search';
 import { api } from '../apiClient';
 
 type Work = {
   id: string;
   title: string;
-  authors: string[];
   published_date: string;
   verified: boolean;
 };
@@ -16,21 +14,15 @@ type GetWorksResponse = {
   total_count: number;
 };
 
-export async function getWorksFiltered(
+export async function getWorks(
   page: number,
-  dataSearch: routerQueryParams
+  user_email: string
 ): Promise<GetWorksResponse> {
-  const params = {
-    title: dataSearch?.title,
-    author: dataSearch?.author,
-    advisor: dataSearch?.advisor,
-    palavras_chave: dataSearch?.palavras_chave,
-    course_id: dataSearch?.course_id,
-    knowledge_id: dataSearch?.knowledge_id,
-    user_email: dataSearch?.user_email,
-  };
+  const params = { user_email };
 
-  const { data } = await api.get(`/monographs/search/${page}`, { params });
+  const { data } = await api.get(`/monographs/all/not-verified/user/${page}`, {
+    params,
+  });
 
   const { total_count, monographs } = data;
 
@@ -38,7 +30,6 @@ export async function getWorksFiltered(
     return {
       id: monograph.id,
       title: monograph.title,
-      authors: monograph.authors.split(','),
       published_date: new Date(monograph.published_date).toLocaleDateString(
         'pt-BR',
         {
@@ -57,14 +48,14 @@ export async function getWorksFiltered(
   };
 }
 
-export function useSearchWorks(
+export function useWorksNotVerified(
   page: number,
-  dataSearch: routerQueryParams,
+  user_email: string,
   options: UseQueryOptions
 ) {
   return useQuery(
-    ['works-search', page, dataSearch],
-    () => getWorksFiltered(page, dataSearch),
+    ['works-not-verified-by-user', page, user_email],
+    () => getWorks(page, user_email),
     {
       staleTime: 1000 * 60 * 10, // 10 minutes
       ...options,

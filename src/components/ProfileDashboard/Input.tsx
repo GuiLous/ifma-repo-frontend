@@ -1,4 +1,4 @@
-import { forwardRef, ForwardRefRenderFunction, useContext } from 'react';
+import { forwardRef, ForwardRefRenderFunction } from 'react';
 import { FieldError } from 'react-hook-form';
 
 import {
@@ -9,8 +9,6 @@ import {
   InputProps as ChakraInputProps,
   useBreakpointValue,
 } from '@chakra-ui/react';
-
-import { AuthContext } from '../../contexts/AuthContext';
 
 interface InputProps extends ChakraInputProps {
   name: string;
@@ -53,7 +51,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
         name={name}
         id={name}
         type={type}
-        focusBorderColor="green.300"
+        focusBorderColor="#4299e199"
         variant="outline"
         borderRadius="3"
         color="gray.800"

@@ -1,7 +1,15 @@
 import { FormEvent, KeyboardEvent, useState } from 'react';
 import { RiSearchLine } from 'react-icons/ri';
 
-import { Flex, Icon, Input } from '@chakra-ui/react';
+import {
+  FormControl,
+  FormLabel,
+  Icon,
+  Input,
+  InputGroup,
+  InputRightElement,
+  useBreakpointValue,
+} from '@chakra-ui/react';
 import Router from 'next/router';
 
 export function SearchBox() {
@@ -24,35 +32,55 @@ export function SearchBox() {
     }
   }
 
+  const isWideVersion = useBreakpointValue({
+    base: false,
+    md: true,
+  });
+
   return (
-    <Flex
-      as="label"
-      py={['2', '3']}
-      px="2"
-      w="100%"
-      borderRadius="4"
-      border="2px"
-      borderColor="green.200"
-    >
-      <Input
-        color="gray.600"
-        variant="unstyled"
-        mr="2"
-        placeholder="Buscar no repositório pelo título..."
-        _placeholder={{ color: 'gray.200' }}
-        fontSize={['0.7rem', '0.9rem', '1rem']}
-        position="initial"
-        onChange={(event) => setTitle(event.target.value)}
-        value={title}
-        onKeyUp={handleEventInput}
-      />
-      <Icon
-        aria-label="Search icon"
-        as={RiSearchLine}
-        _hover={{ color: 'gray.500', cursor: 'pointer' }}
-        fontSize={['20', '23', '26']}
-        onClick={handleSearch}
-      />
-    </Flex>
+    <FormControl position="initial">
+      <FormLabel
+        color="gray.400"
+        fontWeight={500}
+        fontSize={['0.6rem', '0.8rem']}
+        mb={['2px', '4px']}
+        htmlFor={'search'}
+      >
+        Pesquisa rápida
+      </FormLabel>
+
+      <InputGroup>
+        <Input
+          id="search"
+          type="text"
+          variant="outline"
+          border="2px"
+          borderColor="green.150"
+          focusBorderColor="#4299e199"
+          borderRadius="3"
+          color="gray.800"
+          fontWeight="400"
+          size={isWideVersion ? 'lg' : 'md'}
+          placeholder="Buscar no repositório pelo título..."
+          _placeholder={{ color: 'gray.200' }}
+          _hover={{ borderColor: 'green.200' }}
+          fontSize={['0.7rem', '0.9rem', '1rem']}
+          onChange={(event) => setTitle(event.target.value)}
+          value={title}
+          onKeyUp={handleEventInput}
+          position="initial"
+        />
+
+        <InputRightElement width="2.5rem" pt={['0', '0', '2']}>
+          <Icon
+            aria-label="Search icon"
+            as={RiSearchLine}
+            _hover={{ color: 'gray.500', cursor: 'pointer' }}
+            fontSize={['20', '23', '26']}
+            onClick={handleSearch}
+          />
+        </InputRightElement>
+      </InputGroup>
+    </FormControl>
   );
 }
