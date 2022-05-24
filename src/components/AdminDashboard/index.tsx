@@ -1,9 +1,7 @@
 import { useState } from 'react';
 
 import { Flex, SlideFade, Spinner, Text } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
 
-import { setupAPIClient } from '../../services/api';
 import { useUsers } from '../../services/hooks/useUsers';
 import { HeaderDashboard } from '../HeaderDashboard';
 import { Pagination } from '../Pagination';
@@ -37,7 +35,7 @@ export function AdminDashboard({
   return (
     <Flex w="100%" direction="column">
       <SlideFade in={isOpen} offsetX="100px">
-        <HeaderDashboard sideBarPixelDif="350px" headerTitle="Administrador" />
+        <HeaderDashboard sideBarPixelDif="315px" headerTitle="Administrador" />
 
         <Flex
           w="100%"
@@ -49,7 +47,7 @@ export function AdminDashboard({
           direction="column"
           ml="auto"
           mr="2"
-          maxWidth={['100vw', '100vw', '100vw', 'calc(100vw - 351px)']}
+          maxWidth={['100vw', '100vw', '100vw', 'calc(100vw - 315px)']}
         >
           {!isLoading && isFetching && (
             <Spinner size="sm" colorScheme="gray.500" ml="4" mb="4" />

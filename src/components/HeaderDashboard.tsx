@@ -44,7 +44,7 @@ export function HeaderDashboard({
       mr="2"
       maxWidth={['100vw', '100vw', '100vw', `calc(100vw - ${sideBarPixelDif})`]}
     >
-      <Text color="gray.500" fontWeight={400} fontSize={['md', 'xl', '2xl']}>
+      <Text color="purple.500" fontWeight={700} fontSize={['md', 'xl', '2xl']}>
         {headerTitle}
       </Text>
 

@@ -1,5 +1,6 @@
 import { useContext, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { useMutation } from 'react-query';
 
 import { Box, Divider, Heading, SimpleGrid, VStack } from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -7,6 +8,7 @@ import * as yup from 'yup';
 
 import { AuthContext } from '../../contexts/AuthContext';
 import { api } from '../../services/apiClient';
+import { queryClient } from '../../services/queryClient';
 import { Input } from '../FormLogin/Input';
 import { FormButtons } from './FormButtons';
 
@@ -48,18 +50,25 @@ export function FormCreateUser() {
   const handleClickPasswordConfirmation = () =>
     setShowPasswordConfirmation(!showPasswordConfirmation);
 
-  async function createUser(user: CreateUserFormData) {
-    await api.post('/users', {
-      email: user.email,
-      password: user.password,
-      fullName: user.name,
-    });
+  const createUser = useMutation(
+    async (user: CreateUserFormData) => {
+      await api.post('/users', {
+        email: user.email,
+        password: user.password,
+        fullName: user.name,
+      });
 
-    await signIn({
-      email: user.email,
-      password: user.password,
-    });
-  }
+      await signIn({
+        email: user.email,
+        password: user.password,
+      });
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('users');
+      },
+    }
+  );
 
   const {
     register,
@@ -69,8 +78,10 @@ export function FormCreateUser() {
     resolver: yupResolver(createUserFormSchema),
   });
 
-  const handleCreateUser: SubmitHandler<CreateUserFormData> = (values) => {
-    createUser(values);
+  const handleCreateUser: SubmitHandler<CreateUserFormData> = async (
+    values
+  ) => {
+    await createUser.mutateAsync(values);
   };
 
   return (

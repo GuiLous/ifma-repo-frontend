@@ -3,10 +3,10 @@ import { useEffect, useState } from 'react';
 
 import { Flex, Grid, SlideFade, useDisclosure } from '@chakra-ui/react';
 
-import { HeaderDashboard } from '../../components/HeaderDashboard';
-import { Pagination } from '../../components/Pagination';
-import { Sidebar } from '../../components/Sidebar';
-import { SubmissionsList } from '../../components/SubmissionsList';
+import { HeaderDashboard } from '../../../components/HeaderDashboard';
+import { Pagination } from '../../../components/Pagination';
+import { Sidebar } from '../../../components/Sidebar';
+import { SubmissionsList } from '../../../components/SubmissionsList';
 
 export default function NewSubmission() {
   const { isOpen, onToggle } = useDisclosure();

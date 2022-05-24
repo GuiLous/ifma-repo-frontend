@@ -10,12 +10,12 @@ import {
 } from '@chakra-ui/react';
 import { GetServerSideProps } from 'next';
 
-import { HeaderDashboard } from '../../components/HeaderDashboard';
-import { Pagination } from '../../components/Pagination';
-import { Sidebar } from '../../components/Sidebar';
-import { SubmissionsRecusedList } from '../../components/SubmissionsRecusedList';
-import { setupAPIClient } from '../../services/api';
-import { useWorksRecused } from '../../services/hooks/useWorksRecused';
+import { HeaderDashboard } from '../../../components/HeaderDashboard';
+import { Pagination } from '../../../components/Pagination';
+import { Sidebar } from '../../../components/Sidebar';
+import { SubmissionsRecusedList } from '../../../components/SubmissionsRecusedList';
+import { setupAPIClient } from '../../../services/api';
+import { useWorksRecused } from '../../../services/hooks/useWorksRecused';
 
 interface Work {
   id: string;
@@ -56,7 +56,7 @@ export default function RecusedSubmissions({
         <SlideFade in={isOpen} offsetX="100px">
           <HeaderDashboard
             headerTitle="Submissões Recusadas"
-            sideBarPixelDif="335px"
+            sideBarPixelDif="315px"
           />
 
           <Flex
@@ -70,7 +70,7 @@ export default function RecusedSubmissions({
             direction="column"
             ml="auto"
             mr="2"
-            maxWidth={['100vw', '100vw', '100vw', 'calc(100vw - 335px)']}
+            maxWidth={['100vw', '100vw', '100vw', 'calc(100vw - 315px)']}
           >
             {!isLoading && isFetching && (
               <Spinner size="sm" colorScheme="gray.500" ml="4" mb="4" />

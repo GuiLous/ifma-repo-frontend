@@ -59,7 +59,7 @@ export async function getWorksFiltered(
 
 export function useSearchWorks(
   page: number,
-  dataSearch: routerQueryParams,
+  dataSearch: routerQueryParams | null,
   options: UseQueryOptions
 ) {
   return useQuery(

@@ -1,4 +1,6 @@
+import { useState } from 'react';
 import { RiPencilLine } from 'react-icons/ri';
+import { useMutation } from 'react-query';
 
 import {
   Box,
@@ -16,15 +18,39 @@ import {
 } from '@chakra-ui/react';
 
 import { User } from '.';
+import { api } from '../../services/apiClient';
+import { queryClient } from '../../services/queryClient';
 
 interface TableUsersListProps {
   users: User[];
 }
+
 export function TableUsersList({ users }: TableUsersListProps) {
+  const [isLoadingButton, setIsLoadingButton] = useState(false);
+
   const isWideVersion = useBreakpointValue({
     base: false,
     md: true,
   });
+
+  const turnUserInAdvisor = useMutation(
+    async (user_id: string) => {
+      await api.put('/users/update-advisor', {
+        user_id: user_id,
+      });
+    },
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries('users');
+      },
+    }
+  );
+
+  async function handleTurnUserInAdvisor(user_id: string) {
+    setIsLoadingButton(true);
+    await turnUserInAdvisor.mutateAsync(user_id);
+    setIsLoadingButton(false);
+  }
 
   return (
     <>
@@ -63,14 +89,24 @@ export function TableUsersList({ users }: TableUsersListProps) {
                 </Td>
                 <Td
                   fontSize={['0.8rem', '0.9rem', '1rem']}
+                  color={user?.isAdvisor ? 'green.400' : 'gray.700'}
                 >{`${user.isAdvisor}`}</Td>
                 <Td>
                   <Button
+                    type="button"
                     fontSize="sm"
-                    colorScheme="yellow"
+                    colorScheme={user?.isAdvisor ? 'green' : 'yellow'}
                     leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
+                    onClick={() => handleTurnUserInAdvisor(user.id)}
+                    isLoading={isLoadingButton}
                   >
-                    <Text>{isWideVersion ? 'Tornar Orientador' : ''}</Text>
+                    <Text>
+                      {isWideVersion
+                        ? user?.isAdvisor
+                          ? 'Remover Orientador'
+                          : 'Tornar Orientador'
+                        : ''}
+                    </Text>
                   </Button>
                 </Td>
               </Tr>
@@ -113,16 +149,24 @@ export function TableUsersList({ users }: TableUsersListProps) {
                   </Td>
                   <Td
                     fontSize={['0.8rem', '0.9rem', '1rem']}
+                    color={user?.isAdvisor ? 'green.400' : 'gray.700'}
                   >{`${user.isAdvisor}`}</Td>
                   <Td>
                     <Button
-                      as="a"
-                      size="sm"
+                      type="button"
                       fontSize="sm"
-                      colorScheme="yellow"
+                      colorScheme={user?.isAdvisor ? 'green' : 'yellow'}
                       leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
+                      onClick={() => handleTurnUserInAdvisor(user.id)}
+                      isLoading={isLoadingButton}
                     >
-                      {isWideVersion ? 'Tornar Orientador' : ''}
+                      <Text>
+                        {isWideVersion
+                          ? user?.isAdvisor
+                            ? 'Remover Orientador'
+                            : 'Tornar Orientador'
+                          : ''}
+                      </Text>
                     </Button>
                   </Td>
                 </Tr>

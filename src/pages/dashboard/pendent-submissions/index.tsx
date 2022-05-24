@@ -1,5 +1,4 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import {
   Flex,
@@ -8,13 +7,14 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
+import { GetServerSideProps } from 'next';
 
-import { HeaderDashboard } from '../../components/HeaderDashboard';
-import { Pagination } from '../../components/Pagination';
-import { Sidebar } from '../../components/Sidebar';
-import { SubmissionsList } from '../../components/SubmissionsList';
-import { AuthContext } from '../../contexts/AuthContext';
-import { useSearchWorks } from '../../services/hooks/useSearchWorks';
+import { HeaderDashboard } from '../../../components/HeaderDashboard';
+import { Pagination } from '../../../components/Pagination';
+import { Sidebar } from '../../../components/Sidebar';
+import { SubmissionsList } from '../../../components/SubmissionsList';
+import { setupAPIClient } from '../../../services/api';
+import { useWorksNotVerifiedUser } from '../../../services/hooks/useWorksNotVerifiedUser';
 
 interface Work {
   id: string;
@@ -23,23 +23,21 @@ interface Work {
   verified: boolean;
 }
 
-interface AcceptsSubmissionsProps {
+interface PendentSubmissionsProps {
   works: Work[];
+  user_email: string;
 }
 
-export default function AcceptsSubmissions({ works }: AcceptsSubmissionsProps) {
-  const { user } = useContext(AuthContext);
-
+export default function PendentSubmissions({
+  works,
+  user_email,
+}: PendentSubmissionsProps) {
   const { isOpen, onToggle } = useDisclosure();
   const [page, setPage] = useState(1);
 
-  const dataSearch = {
-    user_email: user?.email,
-  };
-
-  const { data, isLoading, isFetching, error } = useSearchWorks(
+  const { data, isLoading, isFetching, error } = useWorksNotVerifiedUser(
     page,
-    dataSearch,
+    user_email,
     {
       initialData: works,
     }
@@ -56,13 +54,14 @@ export default function AcceptsSubmissions({ works }: AcceptsSubmissionsProps) {
       <Flex w="100%" direction="column">
         <SlideFade in={isOpen} offsetX="100px">
           <HeaderDashboard
-            headerTitle="Submissões Verificadas"
-            sideBarPixelDif="335px"
+            headerTitle="Submissões em Análise"
+            sideBarPixelDif="315px"
           />
 
           <Flex
             w="100%"
             bg="White"
+            as="form"
             py={['8', '10', '12']}
             px={['2', '6', '10']}
             borderRadius="6"
@@ -70,7 +69,7 @@ export default function AcceptsSubmissions({ works }: AcceptsSubmissionsProps) {
             direction="column"
             ml="auto"
             mr="2"
-            maxWidth={['100vw', '100vw', '100vw', 'calc(100vw - 335px)']}
+            maxWidth={['100vw', '100vw', '100vw', 'calc(100vw - 315px)']}
           >
             {!isLoading && isFetching && (
               <Spinner size="sm" colorScheme="gray.500" ml="4" mb="4" />
@@ -100,3 +99,14 @@ export default function AcceptsSubmissions({ works }: AcceptsSubmissionsProps) {
     </Flex>
   );
 }
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const apiClient = setupAPIClient(ctx);
+  const { data } = await apiClient.get('/users/profile');
+
+  return {
+    props: {
+      user_email: data?.email,
+    },
+  };
+};

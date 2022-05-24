@@ -7,14 +7,12 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
 
-import { HeaderDashboard } from '../../components/HeaderDashboard';
-import { Pagination } from '../../components/Pagination';
-import { Sidebar } from '../../components/Sidebar';
-import { SubmissionsList } from '../../components/SubmissionsList';
-import { setupAPIClient } from '../../services/api';
-import { useWorksNotVerified } from '../../services/hooks/useWorksNotVerified';
+import { HeaderDashboard } from '../../../components/HeaderDashboard';
+import { Pagination } from '../../../components/Pagination';
+import { ReviewSubmissionsList } from '../../../components/ReviewSubmissionsList';
+import { Sidebar } from '../../../components/Sidebar';
+import { useAllWorksNotVerified } from '../../../services/hooks/useAllWorksNotVerified ';
 
 interface Work {
   id: string;
@@ -23,25 +21,17 @@ interface Work {
   verified: boolean;
 }
 
-interface ReviewSubmissionsProps {
+interface PendentSubmissionsProps {
   works: Work[];
-  user_email: string;
 }
 
-export default function ReviewSubmissions({
-  works,
-  user_email,
-}: ReviewSubmissionsProps) {
+export default function ReviewSubmissions({ works }: PendentSubmissionsProps) {
   const { isOpen, onToggle } = useDisclosure();
   const [page, setPage] = useState(1);
 
-  const { data, isLoading, isFetching, error } = useWorksNotVerified(
-    page,
-    user_email,
-    {
-      initialData: works,
-    }
-  );
+  const { data, isLoading, isFetching, error } = useAllWorksNotVerified(page, {
+    initialData: works,
+  });
 
   useEffect(() => {
     onToggle();
@@ -54,8 +44,8 @@ export default function ReviewSubmissions({
       <Flex w="100%" direction="column">
         <SlideFade in={isOpen} offsetX="100px">
           <HeaderDashboard
-            headerTitle="Submissões em Análise"
-            sideBarPixelDif="335px"
+            headerTitle="Submissões Esperando Análise"
+            sideBarPixelDif="315px"
           />
 
           <Flex
@@ -69,7 +59,7 @@ export default function ReviewSubmissions({
             direction="column"
             ml="auto"
             mr="2"
-            maxWidth={['100vw', '100vw', '100vw', 'calc(100vw - 335px)']}
+            maxWidth={['100vw', '100vw', '100vw', 'calc(100vw - 315px)']}
           >
             {!isLoading && isFetching && (
               <Spinner size="sm" colorScheme="gray.500" ml="4" mb="4" />
@@ -84,7 +74,7 @@ export default function ReviewSubmissions({
               </Flex>
             ) : (
               <>
-                <SubmissionsList works={data?.works} />
+                <ReviewSubmissionsList works={data?.works} />
                 <Pagination
                   totalCountOfRegisters={data?.total_count}
                   currentPage={page}
@@ -99,14 +89,3 @@ export default function ReviewSubmissions({
     </Flex>
   );
 }
-
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const apiClient = setupAPIClient(ctx);
-  const { data } = await apiClient.get('/users/profile');
-
-  return {
-    props: {
-      user_email: data?.email,
-    },
-  };
-};

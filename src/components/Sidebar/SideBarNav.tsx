@@ -1,11 +1,13 @@
 import { useContext } from 'react';
 import {
   RiAddLine,
+  RiBookLine,
   RiCheckLine,
   RiContactsLine,
   RiFile2Line,
   RiFileInfoLine,
   RiLoader4Line,
+  RiStackOverflowLine,
 } from 'react-icons/ri';
 
 import { Stack } from '@chakra-ui/react';
@@ -34,16 +36,16 @@ export function SideBarNav() {
       )}
       {!user?.isAdmin && (
         <NavSection title="SUBMISSÕES">
-          <NavLink icon={RiAddLine} href="/new-submission">
+          <NavLink icon={RiAddLine} href="/dashboard/new-submission">
             Nova Submissão
           </NavLink>
-          <NavLink icon={RiCheckLine} href="/accepts-submissions">
+          <NavLink icon={RiCheckLine} href="/dashboard/accepts-submissions">
             Minhas Submissões
           </NavLink>
-          <NavLink icon={RiLoader4Line} href="/review-submissions">
+          <NavLink icon={RiLoader4Line} href="/dashboard/pendent-submissions">
             Submissões em Análise
           </NavLink>
-          <NavLink icon={RiFileInfoLine} href="/recused-submissions">
+          <NavLink icon={RiFileInfoLine} href="/dashboard/recused-submissions">
             Submissões Recusadas
           </NavLink>
         </NavSection>
@@ -54,17 +56,17 @@ export function SideBarNav() {
           <NavLink icon={RiAddLine} href="/dashboard/new-submission">
             Nova Submissão
           </NavLink>
-          <NavLink icon={RiFile2Line} href="/dashboard/recused-submissions">
+          <NavLink icon={RiFile2Line} href="/dashboard/all-submissions">
             Todas Submissões
           </NavLink>
-          <NavLink icon={RiFileInfoLine} href="/dashboard/new-submission">
+          <NavLink icon={RiFileInfoLine} href="/dashboard/review-submissions">
             Verificar Submissões
           </NavLink>
-          <NavLink icon={RiAddLine} href="/dashboard/new-submission">
+          <NavLink icon={RiStackOverflowLine} href="/dashboard/new-submission">
             Cadastrar Cursos
           </NavLink>
-          <NavLink icon={RiAddLine} href="/dashboard/new-submission">
-            Cadastrar Área de Conhecimento
+          <NavLink icon={RiBookLine} href="/dashboard/new-submission">
+            Adicionar Área de Conhecimento
           </NavLink>
         </NavSection>
       )}

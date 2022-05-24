@@ -48,7 +48,7 @@ export async function getWorks(
   };
 }
 
-export function useWorksNotVerified(
+export function useWorksNotVerifiedUser(
   page: number,
   user_email: string,
   options: UseQueryOptions
