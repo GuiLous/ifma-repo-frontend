@@ -2,13 +2,19 @@
 import { useContext, useEffect } from 'react';
 
 import { Flex, useDisclosure } from '@chakra-ui/react';
+import { GetServerSideProps } from 'next';
 
 import { AdminDashboard } from '../../components/AdminDashboard';
 import { ProfileDashboard } from '../../components/ProfileDashboard';
 import { Sidebar } from '../../components/Sidebar';
 import { AuthContext } from '../../contexts/AuthContext';
+import { setupAPIClient } from '../../services/api';
 
-export default function Dashboard() {
+interface DashboardProps {
+  admin_email: string;
+}
+
+export default function Dashboard({ admin_email }: DashboardProps) {
   const { isOpen, onToggle } = useDisclosure();
   const { user } = useContext(AuthContext);
 
@@ -21,7 +27,7 @@ export default function Dashboard() {
       <Sidebar isOpenSlide={isOpen} />
 
       {user?.isAdmin ? (
-        <AdminDashboard isOpen={isOpen} />
+        <AdminDashboard isOpen={isOpen} admin_email={admin_email} />
       ) : (
         <ProfileDashboard isOpen={isOpen} />
       )}
@@ -29,8 +35,13 @@ export default function Dashboard() {
   );
 }
 
-// export const getServerSideProps = withSSRGuest(async (_ctx) => {
-//   return {
-//     props: {},
-//   };
-// });
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const apiClient = setupAPIClient(ctx);
+  const { data } = await apiClient.get('/users/profile');
+
+  return {
+    props: {
+      admin_email: data?.email,
+    },
+  };
+};

@@ -2,48 +2,60 @@ import { useQuery, UseQueryOptions, UseQueryResult } from 'react-query';
 
 import { api } from '../apiClient';
 
-type Work = {
+type User = {
   id: string;
-  title: string;
-  authors: string[];
-  published_date: string;
+  fullName: string;
+  email: string;
+  isAdvisor: boolean;
+  created_at: string;
 };
 
-type GetWorksResponse = {
-  works: Work[];
+type GetUsersResponse = {
+  users_list: User[];
   total_count: number;
 };
 
-export async function getWorks(page: number): Promise<GetWorksResponse> {
-  const { data } = await api.get(`/monographs/${page}`);
+export async function getWorks(
+  page: number,
+  admin_email: string
+): Promise<GetUsersResponse> {
+  const { data } = await api.get(`/users/${page}`);
 
-  const { total_count, monographs } = data;
+  const { total_count, users } = data;
 
-  const works = monographs.map((monograph) => {
+  const users_filtered = users.filter((user) => user.email !== admin_email);
+
+  const users_list = users_filtered.map((user) => {
     return {
-      id: monograph.id,
-      title: monograph.title,
-      authors: monograph.authors.split(','),
-      published_date: new Date(monograph.published_date).toLocaleDateString(
-        'pt-BR',
-        {
-          day: '2-digit',
-          month: '2-digit',
-          year: 'numeric',
-        }
-      ),
+      id: user.id,
+      email: user.email,
+      fullName: user.fullName,
+      isAdvisor: user.isAdvisor,
+      created_at: new Date(user.created_at).toLocaleDateString('pt-BR', {
+        day: '2-digit',
+        month: '2-digit',
+        year: 'numeric',
+      }),
     };
   });
 
   return {
-    works,
-    total_count,
+    users_list,
+    total_count: total_count - 1,
   };
 }
 
-export function useWorks(page: number, options: UseQueryOptions) {
-  return useQuery(['users', page], () => getWorks(page), {
-    staleTime: 1000 * 60 * 10, // 10 minutes
-    ...options,
-  }) as UseQueryResult<GetWorksResponse, unknown>;
+export function useUsers(
+  page: number,
+  admin_email: string,
+  options: UseQueryOptions
+) {
+  return useQuery(
+    ['users', page, admin_email],
+    () => getWorks(page, admin_email),
+    {
+      staleTime: 1000 * 60 * 10, // 10 minutes
+      ...options,
+    }
+  ) as UseQueryResult<GetUsersResponse, unknown>;
 }

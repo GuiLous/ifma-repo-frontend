@@ -59,7 +59,7 @@ export function SubmissionsRecusedList({ works }: SubmissionsRecusedListProps) {
                 <Td fontSize={['0.8rem', '0.9rem', '1rem']}>
                   {work?.published_date}
                 </Td>
-                <Td fontSize={['0.8rem', '0.9rem', '1rem']}>
+                <Td fontSize={['0.8rem', '0.9rem', '1rem']} color="red.400">
                   {work?.comments_if_not_accept}
                 </Td>
                 <Td>
@@ -101,7 +101,7 @@ export function SubmissionsRecusedList({ works }: SubmissionsRecusedListProps) {
                   <Td fontSize={['0.8rem', '0.9rem', '1rem']}>
                     {work?.published_date}
                   </Td>
-                  <Td fontSize={['0.8rem', '0.9rem', '1rem']}>
+                  <Td fontSize={['0.8rem', '0.9rem', '1rem']} color="red.400">
                     {work?.comments_if_not_accept}
                   </Td>
                   <Td>
