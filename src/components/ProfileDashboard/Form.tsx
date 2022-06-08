@@ -2,7 +2,13 @@ import { useContext, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 
-import { Button, Flex, Stack, useBreakpointValue } from '@chakra-ui/react';
+import {
+  Button,
+  Flex,
+  Stack,
+  useBreakpointValue,
+  useToast,
+} from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
@@ -35,6 +41,7 @@ export const updateUserFormSchema = yup.object().shape({
 });
 
 export function Form() {
+  const toast = useToast();
   const { user, signOut } = useContext(AuthContext);
 
   const isWideVersion = useBreakpointValue({
@@ -44,12 +51,30 @@ export function Form() {
 
   const updateUser = useMutation(
     async (userValues: UpdateUserFormData) => {
-      await api.put('/users/update-user', {
-        email: user?.email,
-        fullName: userValues.name,
-        currentPassword: userValues.currentPassword,
-        newPassword: userValues.password,
-      });
+      try {
+        await api.put('/users/update-user', {
+          email: user?.email,
+          fullName: userValues.name,
+          currentPassword: userValues.currentPassword,
+          newPassword: userValues.password,
+        });
+
+        toast({
+          title: 'Perfil atualizado com sucesso!',
+          position: 'top',
+          status: 'success',
+          isClosable: true,
+          duration: 3000,
+        });
+      } catch (error) {
+        toast({
+          title: `${error.message}`,
+          position: 'top',
+          status: 'error',
+          isClosable: true,
+          duration: 3000,
+        });
+      }
     },
     {
       onSuccess: () => {

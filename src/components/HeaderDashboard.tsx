@@ -53,7 +53,11 @@ export function HeaderDashboard({
       </Text>
 
       <Flex align="center" justify="center">
-        <Link href={linkPath} alignItems="center">
+        <Link
+          href={linkPath}
+          alignItems="center"
+          _hover={{ textDecoration: 'none' }}
+        >
           <Button
             fontSize={['sm', 'md', 'xl', 'xl']}
             color="green.300"

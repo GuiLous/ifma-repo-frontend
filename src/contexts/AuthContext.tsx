@@ -1,6 +1,7 @@
 /* eslint-disable no-console */
 import { createContext, ReactNode, useEffect, useState } from 'react';
 
+import { useToast } from '@chakra-ui/react';
 import Router from 'next/router';
 import { destroyCookie, parseCookies, setCookie } from 'nookies';
 
@@ -43,6 +44,7 @@ export function signOut() {
 }
 
 export function AuthProvider({ children }: AuthProviderProps) {
+  const toast = useToast();
   const [user, setUser] = useState<User>();
   const isAuthenticated = !!user;
 
@@ -112,6 +114,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
       Router.push('/');
     } catch (err) {
       console.log(err);
+      toast({
+        title: `${err.message}`,
+        position: 'top',
+        status: 'error',
+        isClosable: true,
+        duration: 3000,
+      });
     }
   }
 

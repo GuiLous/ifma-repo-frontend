@@ -7,13 +7,14 @@ import { Flex, SlideFade, useDisclosure, useToast } from '@chakra-ui/react';
 import Router from 'next/router';
 
 import { HeaderDashboard } from '../../../components/HeaderDashboard';
-import { SubmissionWorkFlow } from '../../../components/SubmissionWorkFlow';
+import { SubmissionWorkFlowEdit } from '../../../components/SubmissionWorkFlowEdit';
 import { AuthContext } from '../../../contexts/AuthContext';
+import { setupAPIClient } from '../../../services/api';
 import { api } from '../../../services/apiClient';
 import { queryClient } from '../../../services/queryClient';
 import { withSSRAuth } from '../../../utils/withSSRAuth';
 
-type CreateWorkFormData = {
+type EditWorkFormData = {
   abstract: string;
   advisor: string;
   authors: { author: string }[];
@@ -29,7 +30,28 @@ type CreateWorkFormData = {
   title: string;
 };
 
-export default function NewSubmission() {
+type Work = {
+  id: string;
+  title: string;
+  authors: string[];
+  authors_emails: string[];
+  advisor: string;
+  advisor_lattes: string;
+  published_date: string;
+  published_local: string;
+  resumo: string;
+  palavras_chave: string[];
+  number_pages: number;
+  pdf_url: string;
+  knowledge_area: string;
+  course: string;
+};
+
+interface EditSubmissionProps {
+  dataMonograph: Work;
+}
+
+export default function EditSubmission({ dataMonograph }: EditSubmissionProps) {
   const toast = useToast();
   const { user } = useContext(AuthContext);
   const { isOpen, onToggle } = useDisclosure();
@@ -39,8 +61,8 @@ export default function NewSubmission() {
     onToggle();
   }, []);
 
-  const createWork = useMutation(
-    async (work: CreateWorkFormData) => {
+  const editWork = useMutation(
+    async (work: EditWorkFormData) => {
       let keyWordsFormatted = '';
       keyWordsFormatted += work.keyWords.map((key) => key.keyWord);
 
@@ -126,19 +148,18 @@ export default function NewSubmission() {
     }
   );
 
-  const handleCreateWork: SubmitHandler<CreateWorkFormData> = async (
-    values
-  ) => {
-    await createWork.mutateAsync(values);
+  const handleEditWork: SubmitHandler<EditWorkFormData> = async (values) => {
+    await editWork.mutateAsync(values);
   };
 
   return (
     <Flex w="100%">
-      <title>New Submission | RepoIFMA</title>
+      <title>Edit Submission | RepoIFMA</title>
+
       <Flex w="100%" direction="column">
         <SlideFade in={isOpen} offsetY="-100px">
           <HeaderDashboard
-            headerTitle="Nova Submissão"
+            headerTitle="Editar Submissão"
             sideBarPixelDif="0"
             buttonName="Meu Perfil"
             linkPath="/dashboard"
@@ -157,9 +178,9 @@ export default function NewSubmission() {
               ml="auto"
               mr="2"
               flexDirection="column"
-              onSubmit={methods.handleSubmit(handleCreateWork)}
+              onSubmit={methods.handleSubmit(handleEditWork)}
             >
-              <SubmissionWorkFlow />
+              <SubmissionWorkFlowEdit />
             </Flex>
           </FormProvider>
         </SlideFade>
@@ -168,8 +189,36 @@ export default function NewSubmission() {
   );
 }
 
-export const getServerSideProps = withSSRAuth(async () => {
+export const getServerSideProps = withSSRAuth(async (ctx) => {
+  const apiClient = setupAPIClient(ctx);
+
+  const { slug } = ctx.params;
+
+  const { data } = await apiClient.get(`/monographs/not-verified/${slug}`);
+
+  const dataMonograph = {
+    id: data.id,
+    title: data.title,
+    authors: data.authors.split(','),
+    authors_emails: data.authors_emails.split(','),
+    advisor: data.advisor,
+    advisor_lattes: data.advisor_lattes,
+    published_date: new Date(data.published_date).toLocaleDateString('pt-BR', {
+      day: '2-digit',
+      month: '2-digit',
+      year: 'numeric',
+    }),
+    published_local: data.published_local,
+    resumo: data.resumo,
+    palavras_chave: data.palavras_chave.split(','),
+    number_pages: data.number_pages,
+    pdf_url: data.pdf_url,
+    knowledge_area: data.knowledge_area.name,
+    course: data.course.name,
+  };
+
+  console.log(dataMonograph);
   return {
-    props: {},
+    props: { dataMonograph },
   };
 });
