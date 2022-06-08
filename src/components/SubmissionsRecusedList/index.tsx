@@ -1,3 +1,4 @@
+import { useContext } from 'react';
 import { RiPencilLine } from 'react-icons/ri';
 
 import {
@@ -15,6 +16,8 @@ import {
   useBreakpointValue,
 } from '@chakra-ui/react';
 
+import { AuthContext } from '../../contexts/AuthContext';
+
 interface Work {
   id: string;
   title: string;
@@ -27,6 +30,8 @@ interface SubmissionsRecusedListProps {
 }
 
 export function SubmissionsRecusedList({ works }: SubmissionsRecusedListProps) {
+  const { user } = useContext(AuthContext);
+
   const isWideVersion = useBreakpointValue({
     base: false,
     md: true,
@@ -43,7 +48,7 @@ export function SubmissionsRecusedList({ works }: SubmissionsRecusedListProps) {
               </Th>
               <Th color="gray.300">Data de publicação</Th>
               <Th color="gray.300">Comentário</Th>
-              <Th color="gray.300">Ação</Th>
+              {!user?.isAdmin && <Th color="gray.300">Ação</Th>}
             </Tr>
           </Thead>
           <Tbody>
@@ -62,17 +67,19 @@ export function SubmissionsRecusedList({ works }: SubmissionsRecusedListProps) {
                 <Td fontSize={['0.8rem', '0.9rem', '1rem']} color="red.400">
                   {work?.comments_if_not_accept}
                 </Td>
-                <Td>
-                  <Button
-                    as="a"
-                    size="sm"
-                    fontSize="sm"
-                    colorScheme="yellow"
-                    leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
-                  >
-                    {isWideVersion ? 'Editar' : ''}
-                  </Button>
-                </Td>
+                {!user?.isAdmin && (
+                  <Td>
+                    <Button
+                      as="a"
+                      size="sm"
+                      fontSize="sm"
+                      colorScheme="yellow"
+                      leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
+                    >
+                      {isWideVersion ? 'Editar' : ''}
+                    </Button>
+                  </Td>
+                )}
               </Tr>
             ))}
           </Tbody>
@@ -85,7 +92,7 @@ export function SubmissionsRecusedList({ works }: SubmissionsRecusedListProps) {
                 <Th color="gray.300">Título</Th>
                 <Th color="gray.300">Data de publicação</Th>
                 <Th color="gray.300">Comentário</Th>
-                <Th color="gray.300">Ação</Th>
+                {!user?.isAdmin && <Th color="gray.300">Ação</Th>}
               </Tr>
             </Thead>
             <Tbody>
@@ -104,17 +111,19 @@ export function SubmissionsRecusedList({ works }: SubmissionsRecusedListProps) {
                   <Td fontSize={['0.8rem', '0.9rem', '1rem']} color="red.400">
                     {work?.comments_if_not_accept}
                   </Td>
-                  <Td>
-                    <Button
-                      as="a"
-                      size="sm"
-                      fontSize="sm"
-                      colorScheme="yellow"
-                      leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
-                    >
-                      {isWideVersion ? 'Editar' : ''}
-                    </Button>
-                  </Td>
+                  {!user?.isAdmin && (
+                    <Td>
+                      <Button
+                        as="a"
+                        size="sm"
+                        fontSize="sm"
+                        colorScheme="yellow"
+                        leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
+                      >
+                        {isWideVersion ? 'Editar' : ''}
+                      </Button>
+                    </Td>
+                  )}
                 </Tr>
               ))}
             </Tbody>

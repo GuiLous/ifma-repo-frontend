@@ -13,6 +13,7 @@ import { Pagination } from '../../../components/Pagination';
 import { ReviewSubmissionsList } from '../../../components/ReviewSubmissionsList';
 import { Sidebar } from '../../../components/Sidebar';
 import { useAllWorksNotVerified } from '../../../services/hooks/useAllWorksNotVerified ';
+import { withSSRAuth } from '../../../utils/withSSRAuth';
 
 interface Work {
   id: string;
@@ -39,6 +40,8 @@ export default function ReviewSubmissions({ works }: PendentSubmissionsProps) {
 
   return (
     <Flex w="100%">
+      <title>Review | RepoIFMA</title>
+
       <Sidebar isOpenSlide={isOpen} />
 
       <Flex w="100%" direction="column">
@@ -89,3 +92,9 @@ export default function ReviewSubmissions({ works }: PendentSubmissionsProps) {
     </Flex>
   );
 }
+
+export const getServerSideProps = withSSRAuth(async () => {
+  return {
+    props: {},
+  };
+});

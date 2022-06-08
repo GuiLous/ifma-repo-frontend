@@ -1,20 +1,43 @@
 import { useContext, useState } from 'react';
 import { useMutation } from 'react-query';
 
-import { Button, Checkbox, Flex, Text } from '@chakra-ui/react';
+import { Button, Checkbox, Flex, Text, useToast } from '@chakra-ui/react';
 
 import { AuthContext } from '../../contexts/AuthContext';
 import { api } from '../../services/apiClient';
 import { queryClient } from '../../services/queryClient';
 
 export function FooterProfileDashboard() {
+  const toast = useToast();
   const { user, signOut } = useContext(AuthContext);
 
   const [isCheckDelete, setIsCheckDelete] = useState(false);
 
   const deleteUser = useMutation(
     async () => {
-      await api.delete('/users/delete-user', { data: { email: user?.email } });
+      try {
+        await api.delete('/users/delete-user', {
+          data: { email: user?.email },
+        });
+
+        await signOut();
+
+        toast({
+          title: 'Conta excluída com sucesso!',
+          position: 'top',
+          status: 'success',
+          isClosable: true,
+          duration: 3000,
+        });
+      } catch (error) {
+        toast({
+          title: `${error.message}`,
+          position: 'top',
+          status: 'error',
+          isClosable: true,
+          duration: 3000,
+        });
+      }
     },
     {
       onSuccess: () => {
@@ -25,7 +48,6 @@ export function FooterProfileDashboard() {
 
   async function handleDeleteUser() {
     await deleteUser.mutateAsync();
-    await signOut();
   }
 
   return (

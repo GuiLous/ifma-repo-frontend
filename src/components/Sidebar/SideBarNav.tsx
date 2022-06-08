@@ -57,16 +57,16 @@ export function SideBarNav() {
             Nova Submissão
           </NavLink>
           <NavLink icon={RiFile2Line} href="/dashboard/all-submissions">
-            Todas Submissões
+            Submissões Verificadas
           </NavLink>
           <NavLink icon={RiFileInfoLine} href="/dashboard/review-submissions">
             Verificar Submissões
           </NavLink>
-          <NavLink icon={RiStackOverflowLine} href="/dashboard/new-submission">
-            Cadastrar Cursos
-          </NavLink>
-          <NavLink icon={RiBookLine} href="/dashboard/new-submission">
-            Adicionar Área de Conhecimento
+          <NavLink
+            icon={RiFileInfoLine}
+            href="/dashboard/recused-verifications"
+          >
+            Verificações Recusadas
           </NavLink>
         </NavSection>
       )}

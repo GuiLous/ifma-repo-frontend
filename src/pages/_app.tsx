@@ -6,6 +6,7 @@ import { AppProps } from 'next/app';
 
 import { AuthProvider } from '../contexts/AuthContext';
 import { HideAndShowHeaderProvider } from '../contexts/HideAndShowHeaderContext';
+import { LoadingProgressProvider } from '../contexts/ProgressBarContext';
 import { SidebarDrawerProvider } from '../contexts/SidebarDrawerContext';
 import { queryClient } from '../services/queryClient';
 import { theme } from '../styles/theme';
@@ -15,11 +16,13 @@ function MyApp({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <ChakraProvider theme={theme}>
         <AuthProvider>
-          <HideAndShowHeaderProvider>
-            <SidebarDrawerProvider>
-              <Component {...pageProps} />
-            </SidebarDrawerProvider>
-          </HideAndShowHeaderProvider>
+          <LoadingProgressProvider>
+            <HideAndShowHeaderProvider>
+              <SidebarDrawerProvider>
+                <Component {...pageProps} />
+              </SidebarDrawerProvider>
+            </HideAndShowHeaderProvider>
+          </LoadingProgressProvider>
         </AuthProvider>
       </ChakraProvider>
 

@@ -15,30 +15,34 @@ type GetWorksResponse = {
 };
 
 export async function getWorks(page: number): Promise<GetWorksResponse> {
-  const { data } = await api.get(`/monographs/all/not-verified/${page}`);
+  try {
+    const { data } = await api.get(`/monographs/all/not-verified/${page}`);
 
-  const { total_count, monographs } = data;
+    const { total_count, monographs } = data;
 
-  const works = monographs.map((monograph) => {
+    const works = monographs.map((monograph) => {
+      return {
+        id: monograph.id,
+        title: monograph.title,
+        published_date: new Date(monograph.published_date).toLocaleDateString(
+          'pt-BR',
+          {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+          }
+        ),
+        verified: monograph.verified,
+      };
+    });
+
     return {
-      id: monograph.id,
-      title: monograph.title,
-      published_date: new Date(monograph.published_date).toLocaleDateString(
-        'pt-BR',
-        {
-          day: '2-digit',
-          month: '2-digit',
-          year: 'numeric',
-        }
-      ),
-      verified: monograph.verified,
+      works,
+      total_count,
     };
-  });
-
-  return {
-    works,
-    total_count,
-  };
+  } catch (error) {
+    throw new Error(error);
+  }
 }
 
 export function useAllWorksNotVerified(page: number, options: UseQueryOptions) {

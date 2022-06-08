@@ -73,7 +73,7 @@ export function ReviewSubmissionsList({ works }: ReviewSubmissionsListProps) {
                 >
                   <Button
                     as="a"
-                    href={`/dashboard`}
+                    href={`/dashboard/review-page/${work?.id}`}
                     bg="White"
                     border="1px"
                     _hover={{

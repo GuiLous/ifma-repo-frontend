@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { RiMenuLine } from 'react-icons/ri';
 
 import { Flex, Icon, IconButton, useBreakpointValue } from '@chakra-ui/react';
@@ -21,25 +21,26 @@ export function Header() {
   });
 
   return (
-    <Flex
-      as="header"
-      maxWidth={1180}
-      w="100%"
-      direction={isAuthenticated ? 'row' : ['column', 'column', 'row']}
-      px={['2', '4', '6']}
-      py={['2', '4', '6']}
-      bg="White"
-      boxShadow="md"
-      borderRadius="8"
-      align="center"
-      justifyContent="space-between"
-      top="0"
-      mx="auto"
-      zIndex="100"
-    >
-      <Logo />
+    <>
+      <Flex
+        as="header"
+        maxWidth={1180}
+        w="100%"
+        direction={isAuthenticated ? 'row' : ['column', 'column', 'row']}
+        px={['2', '4', '6']}
+        py={['2', '4', '6']}
+        bg="White"
+        boxShadow="md"
+        borderRadius="8"
+        align="center"
+        justifyContent="space-between"
+        top="0"
+        mx="auto"
+        zIndex="100"
+      >
+        <Logo />
 
-      {/* {!isWideVersion && isAuthenticated && (
+        {/* {!isWideVersion && isAuthenticated && (
         <>
           <IconButton
             aria-label="Open navigation"
@@ -53,21 +54,22 @@ export function Header() {
         </>
       )} */}
 
-      {isAuthenticated ? (
-        <>
-          {isWideVersion && (
-            <Flex align="center" gap="6">
-              <Profile showProfileData={isWideVersion} />
+        {isAuthenticated ? (
+          <>
+            {isWideVersion && (
+              <Flex align="center" gap="6">
+                <Profile showProfileData={isWideVersion} />
 
-              <Separator />
+                <Separator />
 
-              <PerfilAndLogout />
-            </Flex>
-          )}
-        </>
-      ) : (
-        <LoginOrCreate />
-      )}
-    </Flex>
+                <PerfilAndLogout />
+              </Flex>
+            )}
+          </>
+        ) : (
+          <LoginOrCreate />
+        )}
+      </Flex>
+    </>
   );
 }

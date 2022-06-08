@@ -8,6 +8,36 @@ interface WorkInfosProps {
 }
 
 export function WorkInfos({ data }: WorkInfosProps) {
+  const authorsArray = data.authors.split(',');
+
+  const authorsFormatted = authorsArray.map((value, index) => {
+    if (index === authorsArray.length - 1) {
+      return value;
+    }
+
+    return value + '; ';
+  });
+
+  const authorsEmails = data.authors_emails.split(',');
+
+  const authorsEmailsFormatted = authorsEmails.map((value, index) => {
+    if (index === authorsEmails.length - 1) {
+      return value;
+    }
+
+    return value + '; ';
+  });
+
+  const palavrasChave = data.palavras_chave.split(',');
+
+  const palavrasChaveFormatted = palavrasChave.map((value, index) => {
+    if (index === palavrasChave.length - 1) {
+      return value;
+    }
+
+    return value + '; ';
+  });
+
   return (
     <Grid
       w="100%"
@@ -36,18 +66,25 @@ export function WorkInfos({ data }: WorkInfosProps) {
       />
       <BoxInfo
         title1="Autor(es)"
-        title2="Orientadores"
-        content1={data.authors}
-        content2={data.advisor}
+        title2="Emails"
+        content1={authorsFormatted}
+        content2={authorsEmailsFormatted}
+        columns={3}
+        small={true}
+      />
+
+      <BoxInfo
+        title1="Orientador"
+        title2="Lattes"
+        content1={data.advisor}
+        content2={data.advisor_lattes}
         columns={3}
         small={true}
       />
 
       <BoxInfo
         title1="Palavras-chave"
-        title2="Keywords"
-        content1={data.palavras_chave}
-        content2={data.keywords}
+        content1={palavrasChaveFormatted}
         columns={3}
         small={true}
       />

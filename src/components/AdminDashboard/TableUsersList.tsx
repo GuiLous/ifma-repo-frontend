@@ -15,6 +15,7 @@ import {
   Thead,
   Tr,
   useBreakpointValue,
+  useToast,
 } from '@chakra-ui/react';
 
 import { User } from '.';
@@ -25,7 +26,13 @@ interface TableUsersListProps {
   users: User[];
 }
 
+type turnUserInAdvisorData = {
+  user_id: string;
+  user_isAdvisor: boolean;
+};
+
 export function TableUsersList({ users }: TableUsersListProps) {
+  const toast = useToast();
   const [isLoadingButton, setIsLoadingButton] = useState(false);
 
   const isWideVersion = useBreakpointValue({
@@ -34,10 +41,38 @@ export function TableUsersList({ users }: TableUsersListProps) {
   });
 
   const turnUserInAdvisor = useMutation(
-    async (user_id: string) => {
-      await api.put('/users/update-advisor', {
-        user_id: user_id,
-      });
+    async ({ user_id, user_isAdvisor }: turnUserInAdvisorData) => {
+      try {
+        await api.put('/users/update-advisor', {
+          user_id: user_id,
+        });
+
+        if (user_isAdvisor) {
+          toast({
+            title: 'Usuário não é mais Orientador!',
+            position: 'top',
+            status: 'warning',
+            isClosable: true,
+            duration: 3000,
+          });
+        } else {
+          toast({
+            title: 'Usuário é Orientador!',
+            position: 'top',
+            status: 'success',
+            isClosable: true,
+            duration: 3000,
+          });
+        }
+      } catch (error) {
+        toast({
+          title: `${error.message}`,
+          position: 'top',
+          status: 'error',
+          isClosable: true,
+          duration: 3000,
+        });
+      }
     },
     {
       onSuccess: () => {
@@ -46,9 +81,12 @@ export function TableUsersList({ users }: TableUsersListProps) {
     }
   );
 
-  async function handleTurnUserInAdvisor(user_id: string) {
+  async function handleTurnUserInAdvisor(
+    user_id: string,
+    user_isAdvisor: boolean
+  ) {
     setIsLoadingButton(true);
-    await turnUserInAdvisor.mutateAsync(user_id);
+    await turnUserInAdvisor.mutateAsync({ user_id, user_isAdvisor });
     setIsLoadingButton(false);
   }
 
@@ -97,7 +135,9 @@ export function TableUsersList({ users }: TableUsersListProps) {
                     fontSize="sm"
                     colorScheme={user?.isAdvisor ? 'green' : 'yellow'}
                     leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
-                    onClick={() => handleTurnUserInAdvisor(user.id)}
+                    onClick={() =>
+                      handleTurnUserInAdvisor(user.id, user.isAdvisor)
+                    }
                     isLoading={isLoadingButton}
                   >
                     <Text>
@@ -157,7 +197,9 @@ export function TableUsersList({ users }: TableUsersListProps) {
                       fontSize="sm"
                       colorScheme={user?.isAdvisor ? 'green' : 'yellow'}
                       leftIcon={<Icon as={RiPencilLine} fontSize="16" />}
-                      onClick={() => handleTurnUserInAdvisor(user.id)}
+                      onClick={() =>
+                        handleTurnUserInAdvisor(user.id, user.isAdvisor)
+                      }
                       isLoading={isLoadingButton}
                     >
                       <Text>

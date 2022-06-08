@@ -8,7 +8,6 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
 
 import { HeaderDashboard } from '../../../components/HeaderDashboard';
 import { Pagination } from '../../../components/Pagination';
@@ -16,6 +15,7 @@ import { Sidebar } from '../../../components/Sidebar';
 import { SubmissionsRecusedList } from '../../../components/SubmissionsRecusedList';
 import { setupAPIClient } from '../../../services/api';
 import { useWorksRecused } from '../../../services/hooks/useWorksRecused';
+import { withSSRAuth } from '../../../utils/withSSRAuth';
 
 interface Work {
   id: string;
@@ -38,10 +38,10 @@ export default function RecusedSubmissions({
 
   const { data, isLoading, isFetching, error } = useWorksRecused(
     page,
-    user_email,
     {
       initialData: works,
-    }
+    },
+    user_email
   );
 
   useEffect(() => {
@@ -50,6 +50,8 @@ export default function RecusedSubmissions({
 
   return (
     <Flex w="100%">
+      <title>Recused Submissions | RepoIFMA</title>
+
       <Sidebar isOpenSlide={isOpen} />
 
       <Flex w="100%" direction="column">
@@ -101,7 +103,7 @@ export default function RecusedSubmissions({
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getServerSideProps = withSSRAuth(async (ctx) => {
   const apiClient = setupAPIClient(ctx);
   const { data } = await apiClient.get('/users/profile');
 
@@ -110,4 +112,4 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       user_email: data?.email,
     },
   };
-};
+});

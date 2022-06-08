@@ -1,4 +1,22 @@
 import { extendTheme } from '@chakra-ui/react';
+import { StepsStyleConfig as Steps, StepsStyleConfig } from 'chakra-ui-steps';
+
+const CustomSteps = {
+  ...StepsStyleConfig,
+  baseStyle: (props) => {
+    return {
+      ...StepsStyleConfig.baseStyle(props),
+      icon: {
+        ...StepsStyleConfig.baseStyle(props).icon,
+        strokeWidth: '0px',
+      },
+      stepIconContainer: {
+        ...StepsStyleConfig.baseStyle(props).stepIconContainer,
+        backgroundColor: '#FFF',
+      },
+    };
+  },
+};
 
 export const theme = extendTheme({
   colors: {
@@ -32,6 +50,9 @@ export const theme = extendTheme({
   fonts: {
     heading: 'Poppins, sans-serif',
     body: 'Poppins, sans-serif',
+  },
+  components: {
+    Steps: CustomSteps,
   },
   styles: {
     global: {

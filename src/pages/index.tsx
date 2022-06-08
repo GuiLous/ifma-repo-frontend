@@ -1,6 +1,14 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
-import { Box, Flex, Slide, Spinner, Text } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  Slide,
+  SlideFade,
+  Spinner,
+  Text,
+  useDisclosure,
+} from '@chakra-ui/react';
 import { GetServerSideProps } from 'next';
 
 import AdvancedSearch from '../components/AdvancedSearch';
@@ -39,6 +47,7 @@ export default function Home({
   dataCourses,
   dataKnowledgeArea,
 }: HomeProps) {
+  const { isOpen, onToggle } = useDisclosure();
   const { isAuthenticated } = useContext(AuthContext);
 
   const { navIsOpen } = useContext(HideAndShowHeaderContext);
@@ -48,6 +57,10 @@ export default function Home({
     initialData: works,
   });
 
+  useEffect(() => {
+    onToggle();
+  }, []);
+
   return (
     <Box maxWidth={1180} mx="auto">
       <title>Home | RepoIFMA</title>
@@ -56,82 +69,84 @@ export default function Home({
         <Header />
       </Slide>
 
-      <Flex
-        as="main"
-        direction={['column', 'column', 'row']}
-        mx="auto"
-        mt={
-          isAuthenticated
-            ? ['5rem', '6.2rem', '7.5rem']
-            : ['7rem', '11rem', '7.5rem']
-        }
-        px={['2', '4', '6']}
-        py={['2', '4', '6']}
-        justify="space-between"
-        bg="White"
-        borderRadius="8"
-        mb={['3', '3', '6']}
-        gap={['2', '4']}
-        boxShadow="lg"
-      >
-        <Flex width="100%" maxWidth={700} direction="column">
-          <SearchBox />
-
-          <HeadingBar textContent="OBRAS MAIS RECENTES" />
-
-          {!isLoading && isFetching && (
-            <Spinner size="sm" colorScheme="gray.500" ml="4" mb="4" />
-          )}
-
-          {isLoading ? (
-            <Flex justify="center">
-              <Spinner />
-            </Flex>
-          ) : error ? (
-            <Flex justify="center">
-              <Text>Falha ao carregar dados.</Text>
-            </Flex>
-          ) : (
-            <>
-              <WorksList works={data?.works} />
-              <Pagination
-                totalCountOfRegisters={data?.total_count}
-                currentPage={page}
-                totalRegistersResponse={data?.works.length}
-                onPageChange={setPage}
-              />
-            </>
-          )}
-
-          <HeadingBar textContent="PESQUISA AVANÇADA" />
-
-          <AdvancedSearch
-            dataCourses={dataCourses}
-            dataKnowledgeArea={dataKnowledgeArea}
-          />
-        </Flex>
-
+      <SlideFade in={isOpen} offsetY="50px">
         <Flex
-          w="100%"
-          maxWidth={[700, 700, 400, 400]}
-          direction={['column', 'column', 'column']}
-          mt={['15px', '18px', '102px']}
-          // pl={['1', '0', '6']}
-          align="center"
+          as="main"
+          direction={['column', 'column', 'row']}
+          mx="auto"
+          mt={
+            isAuthenticated
+              ? ['5rem', '6.2rem', '7.5rem']
+              : ['7rem', '11rem', '7.5rem']
+          }
+          px={['2', '4', '6']}
+          py={['2', '4', '6']}
+          justify="space-between"
+          bg="White"
+          borderRadius="8"
+          mb={['3', '3', '6']}
+          gap={['2', '4']}
+          boxShadow="lg"
         >
-          <SideSearch
-            items={dataCourses}
-            queryType="course_id"
-            title="Listar obras pelo Curso"
-          />
-          <SideSearch
-            items={dataKnowledgeArea}
-            queryType="knowledge_id"
-            title="Listar obras pela Área do Conhecimento"
-          />
+          <Flex width="100%" maxWidth={700} direction="column">
+            <SearchBox />
+
+            <HeadingBar textContent="OBRAS MAIS RECENTES" />
+
+            {!isLoading && isFetching && (
+              <Spinner size="sm" colorScheme="gray.500" ml="4" mb="4" />
+            )}
+
+            {isLoading ? (
+              <Flex justify="center">
+                <Spinner />
+              </Flex>
+            ) : error ? (
+              <Flex justify="center">
+                <Text>Falha ao carregar dados.</Text>
+              </Flex>
+            ) : (
+              <>
+                <WorksList works={data?.works} />
+                <Pagination
+                  totalCountOfRegisters={data?.total_count}
+                  currentPage={page}
+                  totalRegistersResponse={data?.works.length}
+                  onPageChange={setPage}
+                />
+              </>
+            )}
+
+            <HeadingBar textContent="PESQUISA AVANÇADA" />
+
+            <AdvancedSearch
+              dataCourses={dataCourses}
+              dataKnowledgeArea={dataKnowledgeArea}
+            />
+          </Flex>
+
+          <Flex
+            w="100%"
+            maxWidth={[700, 700, 400, 400]}
+            direction={['column', 'column', 'column']}
+            mt={['15px', '18px', '102px']}
+            // pl={['1', '0', '6']}
+            align="center"
+          >
+            <SideSearch
+              items={dataCourses}
+              queryType="course_id"
+              title="Listar obras pelo Curso"
+            />
+            <SideSearch
+              items={dataKnowledgeArea}
+              queryType="knowledge_id"
+              title="Listar obras pela Área do Conhecimento"
+            />
+          </Flex>
         </Flex>
-      </Flex>
-      <Footer />
+        <Footer />
+      </SlideFade>
     </Box>
   );
 }

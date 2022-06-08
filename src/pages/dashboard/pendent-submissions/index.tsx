@@ -7,7 +7,6 @@ import {
   Text,
   useDisclosure,
 } from '@chakra-ui/react';
-import { GetServerSideProps } from 'next';
 
 import { HeaderDashboard } from '../../../components/HeaderDashboard';
 import { Pagination } from '../../../components/Pagination';
@@ -15,6 +14,7 @@ import { Sidebar } from '../../../components/Sidebar';
 import { SubmissionsList } from '../../../components/SubmissionsList';
 import { setupAPIClient } from '../../../services/api';
 import { useWorksNotVerifiedUser } from '../../../services/hooks/useWorksNotVerifiedUser';
+import { withSSRAuth } from '../../../utils/withSSRAuth';
 
 interface Work {
   id: string;
@@ -49,6 +49,8 @@ export default function PendentSubmissions({
 
   return (
     <Flex w="100%">
+      <title>Pendent Submissions | RepoIFMA</title>
+
       <Sidebar isOpenSlide={isOpen} />
 
       <Flex w="100%" direction="column">
@@ -100,7 +102,7 @@ export default function PendentSubmissions({
   );
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getServerSideProps = withSSRAuth(async (ctx) => {
   const apiClient = setupAPIClient(ctx);
   const { data } = await apiClient.get('/users/profile');
 
@@ -109,4 +111,4 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       user_email: data?.email,
     },
   };
-};
+});

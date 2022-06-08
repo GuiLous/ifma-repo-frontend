@@ -15,6 +15,7 @@ import { Sidebar } from '../../../components/Sidebar';
 import { SubmissionsList } from '../../../components/SubmissionsList';
 import { AuthContext } from '../../../contexts/AuthContext';
 import { useSearchWorks } from '../../../services/hooks/useSearchWorks';
+import { withSSRAuth } from '../../../utils/withSSRAuth';
 
 interface Work {
   id: string;
@@ -51,6 +52,7 @@ export default function AcceptsSubmissions({ works }: AcceptsSubmissionsProps) {
 
   return (
     <Flex w="100%">
+      <title>Accepts submissions | RepoIFMA</title>
       <Sidebar isOpenSlide={isOpen} />
 
       <Flex w="100%" direction="column">
@@ -100,3 +102,9 @@ export default function AcceptsSubmissions({ works }: AcceptsSubmissionsProps) {
     </Flex>
   );
 }
+
+export const getServerSideProps = withSSRAuth(async () => {
+  return {
+    props: {},
+  };
+});

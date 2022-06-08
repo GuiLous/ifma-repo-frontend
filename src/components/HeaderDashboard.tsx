@@ -16,11 +16,15 @@ import { SidebarDrawerContext } from '../contexts/SidebarDrawerContext';
 interface HeaderDashboardProps {
   headerTitle: string;
   sideBarPixelDif?: string;
+  buttonName?: string;
+  linkPath?: string;
 }
 
 export function HeaderDashboard({
   headerTitle,
   sideBarPixelDif = '330px',
+  buttonName = 'Página inicial',
+  linkPath = '/',
 }: HeaderDashboardProps) {
   const { onOpen } = useContext(SidebarDrawerContext);
   const isWideVersion = useBreakpointValue({
@@ -49,18 +53,21 @@ export function HeaderDashboard({
       </Text>
 
       <Flex align="center" justify="center">
-        <Button
-          fontSize={['sm', 'md', 'xl', 'xl']}
-          color="green.300"
-          _hover={{ color: 'green.200' }}
-          variant="unstyled"
-          mr={['0', '1', '2', '4']}
-        >
-          <Link href="/" display="flex" alignItems="center" gap="1">
+        <Link href={linkPath} alignItems="center">
+          <Button
+            fontSize={['sm', 'md', 'xl', 'xl']}
+            color="green.300"
+            _hover={{ color: 'green.200' }}
+            variant="unstyled"
+            mr={['0', '1', '2', '4']}
+            display="flex"
+            flexDirection="row"
+            gap="1"
+          >
             <Icon fontSize={['20', '22']} as={RiArrowLeftCircleFill} />
-            <Text>Voltar</Text>
-          </Link>
-        </Button>
+            <Text>{buttonName}</Text>
+          </Button>
+        </Link>
         {!isWideVersion && (
           <IconButton
             aria-label="Open navigation"

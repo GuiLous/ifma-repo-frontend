@@ -12,33 +12,30 @@ import {
 import { HeaderDashboard } from '../../../components/HeaderDashboard';
 import { Pagination } from '../../../components/Pagination';
 import { Sidebar } from '../../../components/Sidebar';
-import { SubmissionsList } from '../../../components/SubmissionsList';
-import { useSearchWorks } from '../../../services/hooks/useSearchWorks';
+import { SubmissionsRecusedList } from '../../../components/SubmissionsRecusedList';
+import { useWorksRecused } from '../../../services/hooks/useWorksRecused';
 import { withSSRAuth } from '../../../utils/withSSRAuth';
 
 interface Work {
   id: string;
   title: string;
   published_date: string;
-  verified: boolean;
+  comments_if_not_accept: string;
 }
 
-interface AcceptsSubmissionsProps {
+interface RecusedSubmissionsProps {
   works: Work[];
 }
 
-export default function AllSubmissions({ works }: AcceptsSubmissionsProps) {
+export default function RecusedVerifications({
+  works,
+}: RecusedSubmissionsProps) {
   const { isOpen, onToggle } = useDisclosure();
   const [page, setPage] = useState(1);
 
-  const dataSearch = {};
-  const { data, isLoading, isFetching, error } = useSearchWorks(
-    page,
-    dataSearch,
-    {
-      initialData: works,
-    }
-  );
+  const { data, isLoading, isFetching, error } = useWorksRecused(page, {
+    initialData: works,
+  });
 
   useEffect(() => {
     onToggle();
@@ -46,19 +43,20 @@ export default function AllSubmissions({ works }: AcceptsSubmissionsProps) {
 
   return (
     <Flex w="100%">
-      <title>All Submissions | RepoIFMA</title>
+      <title>Recused Review | RepoIFMA</title>
       <Sidebar isOpenSlide={isOpen} />
 
       <Flex w="100%" direction="column">
         <SlideFade in={isOpen} offsetX="100px">
           <HeaderDashboard
-            headerTitle="Todas as Submissões Verificadas"
-            sideBarPixelDif="330px"
+            headerTitle="Submissões Recusadas"
+            sideBarPixelDif="315px"
           />
 
           <Flex
             w="100%"
             bg="White"
+            as="form"
             py={['8', '10', '12']}
             px={['2', '6', '10']}
             borderRadius="6"
@@ -66,7 +64,7 @@ export default function AllSubmissions({ works }: AcceptsSubmissionsProps) {
             direction="column"
             ml="auto"
             mr="2"
-            maxWidth={['100vw', '100vw', '100vw', 'calc(100vw - 330px)']}
+            maxWidth={['100vw', '100vw', '100vw', 'calc(100vw - 315px)']}
           >
             {!isLoading && isFetching && (
               <Spinner size="sm" colorScheme="gray.500" ml="4" mb="4" />
@@ -81,7 +79,7 @@ export default function AllSubmissions({ works }: AcceptsSubmissionsProps) {
               </Flex>
             ) : (
               <>
-                <SubmissionsList works={data?.works} />
+                <SubmissionsRecusedList works={data?.works} />
                 <Pagination
                   totalCountOfRegisters={data?.total_count}
                   currentPage={page}
