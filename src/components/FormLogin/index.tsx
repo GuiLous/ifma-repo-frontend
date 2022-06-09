@@ -20,7 +20,7 @@ const loginUserFormSchema = yup.object().shape({
     .required('Email Obrigatório')
     .matches(
       // eslint-disable-next-line no-useless-escape
-      /^[a-z0-9]+(?!.*(?:\+{2,}|\-{2,}|\.{2,}))(?:[\.+\-]{0,1}[a-z0-9])*@(ifma|(acad\.ifma))\.edu\.br$/,
+      /^([a-z0-9]|[A-Z0-9])+(?!.*(?:\+{2,}|\-{2,}|\.{2,}))(?:[\.+\-]{0,1}([a-z0-9]|[A-Z0-9]))*@(ifma|(acad\.ifma))\.edu\.br$/,
       'O email deve terminar com: @ifma.edu.br ou @acad.ifma.edu.br'
     ),
   password: yup

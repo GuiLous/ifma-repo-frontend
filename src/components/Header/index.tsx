@@ -5,6 +5,7 @@ import { Flex, Icon, IconButton, useBreakpointValue } from '@chakra-ui/react';
 
 import { AuthContext } from '../../contexts/AuthContext';
 import { SidebarDrawerContext } from '../../contexts/SidebarDrawerContext';
+import { DropDawnMenu } from '../DropDawnMenu';
 import { Separator } from '../Separator';
 import { LoginOrCreate } from './LoginOrCreate';
 import { Logo } from './Logo';
@@ -13,7 +14,7 @@ import { Profile } from './Profile';
 
 export function Header() {
   const { isAuthenticated } = useContext(AuthContext);
-  const { onOpen } = useContext(SidebarDrawerContext);
+  const { onOpen, isOpen, onClose } = useContext(SidebarDrawerContext);
 
   const isWideVersion = useBreakpointValue({
     base: false,
@@ -40,19 +41,21 @@ export function Header() {
       >
         <Logo />
 
-        {/* {!isWideVersion && isAuthenticated && (
-        <>
-          <IconButton
-            aria-label="Open navigation"
-            icon={<Icon as={RiMenuLine} />}
-            fontSize="24"
-            variant="unstyled"
-            onClick={onOpen}
-            mr="2"
-            mt="3"
-          />
-        </>
-      )} */}
+        {!isWideVersion && isAuthenticated && (
+          <>
+            <IconButton
+              aria-label="Open navigation"
+              icon={<Icon as={RiMenuLine} />}
+              fontSize="24"
+              variant="unstyled"
+              onClick={onOpen}
+              mr="2"
+              mt="3"
+            />
+          </>
+        )}
+
+        <DropDawnMenu isOpen={isOpen} onClose={onClose} />
 
         {isAuthenticated ? (
           <>

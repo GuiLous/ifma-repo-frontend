@@ -65,7 +65,7 @@ export function ReviewWork({ dataMonograph }: ReviewWorkProps) {
           });
         } catch (error) {
           toast({
-            title: `${error.message}`,
+            title: `${error.response.data.message}`,
             position: 'top',
             status: 'error',
             isClosable: true,
@@ -90,7 +90,7 @@ export function ReviewWork({ dataMonograph }: ReviewWorkProps) {
           });
         } catch (error) {
           toast({
-            title: `${error.message}`,
+            title: `${error.response.data.message}`,
             position: 'top',
             status: 'error',
             isClosable: true,

@@ -39,7 +39,7 @@ export function BoxInfo({
           <Text
             ml="1"
             display="inline"
-            fontSize={small ? ['0.8rem', '1.rem'] : ['0.85rem', '1.05rem']}
+            fontSize={small ? ['0.72rem', '1.rem'] : ['0.8rem', '1.05rem']}
             fontWeight={400}
             textTransform="uppercase"
           >
@@ -58,7 +58,7 @@ export function BoxInfo({
             <Text
               ml="1"
               display="inline"
-              fontSize={small ? ['0.8rem', '1.rem'] : ['0.9rem', '1.05rem']}
+              fontSize={small ? ['0.72rem', '1.rem'] : ['0.8rem', '1.05rem']}
               fontWeight={400}
               textTransform="uppercase"
             >
@@ -79,7 +79,7 @@ export function BoxInfo({
             <Text
               ml="1"
               display="inline"
-              fontSize={small ? ['0.8rem', '1.rem'] : ['0.9rem', '1.05rem']}
+              fontSize={small ? ['0.72rem', '1.rem'] : ['0.8rem', '1.05rem']}
               fontWeight={400}
               textTransform="uppercase"
             >

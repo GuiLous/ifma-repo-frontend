@@ -1,7 +1,5 @@
 import { useQuery, UseQueryOptions, UseQueryResult } from 'react-query';
 
-import { useToast } from '@chakra-ui/react';
-
 import { api } from '../apiClient';
 
 type User = {

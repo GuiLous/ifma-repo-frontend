@@ -77,7 +77,7 @@ export default function Home({
           mt={
             isAuthenticated
               ? ['5rem', '6.2rem', '7.5rem']
-              : ['7rem', '11rem', '7.5rem']
+              : ['8rem', '12rem', '7.5rem']
           }
           px={['2', '4', '6']}
           py={['2', '4', '6']}

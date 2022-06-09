@@ -31,7 +31,7 @@ export function FooterProfileDashboard() {
         });
       } catch (error) {
         toast({
-          title: `${error.message}`,
+          title: `${error.response.data.message}`,
           position: 'top',
           status: 'error',
           isClosable: true,

@@ -113,9 +113,9 @@ export function AuthProvider({ children }: AuthProviderProps) {
       authChannel.postMessage('signIn');
       Router.push('/');
     } catch (err) {
-      console.log(err);
+      console.log(err.response);
       toast({
-        title: `${err.message}`,
+        title: `${err.response.data.message}`,
         position: 'top',
         status: 'error',
         isClosable: true,

@@ -70,7 +70,7 @@ export default function Work({ dataMonograph }: WorkProps) {
           mt={
             isAuthenticated
               ? ['5rem', '6.2rem', '7.5rem']
-              : ['7rem', '11rem', '7.5rem']
+              : ['8rem', '12rem', '7.5rem']
           }
           pb={['2', '4', '6']}
           px={['2', '4', '6']}
