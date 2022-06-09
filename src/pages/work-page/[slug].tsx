@@ -20,6 +20,7 @@ import { WorkInfos } from '../../components/WorkInfos';
 import { AuthContext } from '../../contexts/AuthContext';
 import { HideAndShowHeaderContext } from '../../contexts/HideAndShowHeaderContext';
 import { api } from '../../services/apiClient';
+import { formateDate } from '../../utils/formatDate';
 
 export type Work = {
   title: string;
@@ -143,11 +144,7 @@ export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     authors_emails: data.authors_emails,
     advisor: data.advisor,
     advisor_lattes: data.advisor_lattes,
-    published_date: new Date(data.published_date).toLocaleDateString('pt-BR', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    }),
+    published_date: formateDate(data.published_date),
     published_local: data.published_local,
     resumo: data.resumo,
     palavras_chave: data.palavras_chave,

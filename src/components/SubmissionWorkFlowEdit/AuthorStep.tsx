@@ -118,6 +118,7 @@ export function AuthorStep() {
           name="author"
           placeholder="fulano de tal.."
           type="text"
+          color="purple.700"
           mr={['0', '0', '10']}
           mb={['4', '6', '0']}
           value={author}
@@ -146,6 +147,7 @@ export function AuthorStep() {
           id="email"
           name="email"
           type="text"
+          color="purple.700"
           placeholder="Não sei..."
           value={email}
           onKeyDown={handlePreventSubmission}
@@ -213,7 +215,7 @@ export function AuthorStep() {
                   fontSize={['0.7rem', '0.9rem', '1rem']}
                   fontWeight="bold"
                   textAlign="center"
-                  color="gray.700"
+                  color="purple.700"
                 >
                   {field.author}
                 </Td>
@@ -221,7 +223,7 @@ export function AuthorStep() {
                   fontSize={['0.7rem', '0.9rem', '1rem']}
                   fontWeight="bold"
                   textAlign="center"
-                  color="gray.700"
+                  color="purple.700"
                 >
                   {emailsArray[index]}
                 </Td>

@@ -1,5 +1,6 @@
 import { useQuery, UseQueryOptions, UseQueryResult } from 'react-query';
 
+import { formateDate } from '../../utils/formatDate';
 import { api } from '../apiClient';
 
 type Work = {
@@ -25,14 +26,7 @@ export async function getWorks(page: number): Promise<GetWorksResponse> {
         id: monograph.id,
         title: monograph.title,
         authors: monograph.authors.split(','),
-        published_date: new Date(monograph.published_date).toLocaleDateString(
-          'pt-BR',
-          {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric',
-          }
-        ),
+        published_date: formateDate(monograph.published_date),
       };
     });
 

@@ -8,6 +8,7 @@ import { HeaderDashboard } from '../../../components/HeaderDashboard';
 import { ReviewWork } from '../../../components/ReviewWork';
 import { AuthContext } from '../../../contexts/AuthContext';
 import { setupAPIClient } from '../../../services/api';
+import { formateDate } from '../../../utils/formatDate';
 import { withSSRAuth } from '../../../utils/withSSRAuth';
 
 type Work = {
@@ -92,11 +93,7 @@ export const getServerSideProps = withSSRAuth(async (ctx) => {
     authors_emails: data.authors_emails.split(','),
     advisor: data.advisor,
     advisor_lattes: data.advisor_lattes,
-    published_date: new Date(data.published_date).toLocaleDateString('pt-BR', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    }),
+    published_date: formateDate(data.published_date),
     published_local: data.published_local,
     resumo: data.resumo,
     palavras_chave: data.palavras_chave.split(','),

@@ -1,17 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
 import { useMutation } from 'react-query';
 
-import { Flex, SlideFade, useDisclosure, useToast } from '@chakra-ui/react';
+import {
+  Button,
+  Flex,
+  SlideFade,
+  useDisclosure,
+  useToast,
+} from '@chakra-ui/react';
 import Router from 'next/router';
 
 import { HeaderDashboard } from '../../../components/HeaderDashboard';
 import { SubmissionWorkFlowEdit } from '../../../components/SubmissionWorkFlowEdit';
-import { AuthContext } from '../../../contexts/AuthContext';
 import { setupAPIClient } from '../../../services/api';
 import { api } from '../../../services/apiClient';
 import { queryClient } from '../../../services/queryClient';
+import { formateDate } from '../../../utils/formatDate';
 import { withSSRAuth } from '../../../utils/withSSRAuth';
 
 type EditWorkFormData = {
@@ -53,9 +59,30 @@ interface EditSubmissionProps {
 
 export default function EditSubmission({ dataMonograph }: EditSubmissionProps) {
   const toast = useToast();
-  const { user } = useContext(AuthContext);
   const { isOpen, onToggle } = useDisclosure();
-  const methods = useForm();
+
+  const methods = useForm({
+    defaultValues: {
+      title: dataMonograph?.title,
+      course: dataMonograph?.course,
+      knowledge: dataMonograph?.knowledge_area,
+      date: dataMonograph?.published_date,
+      numPages: String(dataMonograph?.number_pages),
+      locale: dataMonograph?.published_local,
+      abstract: dataMonograph?.resumo,
+      keyWords: dataMonograph?.palavras_chave.map((value) => {
+        return { keyWord: value };
+      }),
+      authors: dataMonograph?.authors.map((value) => {
+        return { author: value };
+      }),
+      emails: dataMonograph?.authors_emails.map((value) => {
+        return { email: value };
+      }),
+      advisor: dataMonograph?.advisor,
+      lattes: dataMonograph?.advisor_lattes,
+    },
+  });
 
   useEffect(() => {
     onToggle();
@@ -63,43 +90,40 @@ export default function EditSubmission({ dataMonograph }: EditSubmissionProps) {
 
   const editWork = useMutation(
     async (work: EditWorkFormData) => {
+      const formattedDate = work?.date.replaceAll('/', '-');
+      const dateArray = formattedDate.split('-');
+      const reverseDateArray = dateArray.reverse();
+      const joinReverseDateArray = reverseDateArray.join('-');
+
       let keyWordsFormatted = '';
       keyWordsFormatted += work.keyWords.map((key) => key.keyWord);
-
       let authorsFormatted = '';
       authorsFormatted += work.authors.map((key) => key.author);
-
       let authorsEmailsFormatted = '';
       authorsEmailsFormatted += work.emails.map((key) => key.email);
 
       try {
-        const response = await api.post('/monographs', {
+        await api.put('/monographs/update', {
+          id: dataMonograph?.id,
           title: work.title,
           authors: authorsFormatted,
           authors_emails: authorsEmailsFormatted,
           advisor: work.advisor,
           advisor_lattes: work.lattes ? work.lattes : '-----',
+          published_date: new Date(joinReverseDateArray),
+          published_local: work.locale,
           resumo: work.abstract,
           palavras_chave: keyWordsFormatted,
           number_pages: Number(work.numPages),
-          published_date: new Date(work.date),
-          published_local: work.locale,
-          course_id: work.course,
           knowledge_id: work.knowledge,
+          course_id: work.course,
         });
 
-        if (user.isAdmin || user.isAdvisor) {
-          await api.put('/monographs/update-verified', {
-            id: response.data.id,
-          });
-        }
-
         const formData: any = new FormData();
-
         formData.append('pdf', work.pdf[0]);
 
         await api.patch(
-          `/monographs/pdf-upload/${response.data.id}`,
+          `/monographs/pdf-upload/${dataMonograph?.id}`,
           formData,
           {
             headers: {
@@ -108,26 +132,20 @@ export default function EditSubmission({ dataMonograph }: EditSubmissionProps) {
           }
         );
 
-        Router.push('/dashboard');
+        await api.put('/monographs/update-comments', {
+          id: `${dataMonograph?.id}`,
+          commentToReview: '',
+        });
 
-        if (user.isAdmin || user.isAdvisor) {
-          toast({
-            title: 'Submissão enviada com sucesso!',
-            position: 'top',
-            status: 'success',
-            isClosable: true,
-            duration: 3000,
-          });
-        } else {
-          toast({
-            title:
-              'Submissão enviada com sucesso! Aguarde seu trabalho ser verificado para estar disponível no site. Te informaremos por email!',
-            position: 'top',
-            status: 'info',
-            isClosable: true,
-            duration: 3000,
-          });
-        }
+        Router.push('/dashboard');
+        toast({
+          title:
+            'Submissão Atualizada com sucesso! Aguarde seu trabalho ser verificado para estar disponível no site. Te informaremos por email!',
+          position: 'top',
+          status: 'info',
+          isClosable: true,
+          duration: 5000,
+        });
       } catch (error) {
         toast({
           title: `${error.message}`,
@@ -150,6 +168,7 @@ export default function EditSubmission({ dataMonograph }: EditSubmissionProps) {
 
   const handleEditWork: SubmitHandler<EditWorkFormData> = async (values) => {
     await editWork.mutateAsync(values);
+    // console.log(values);
   };
 
   return (
@@ -181,6 +200,7 @@ export default function EditSubmission({ dataMonograph }: EditSubmissionProps) {
               onSubmit={methods.handleSubmit(handleEditWork)}
             >
               <SubmissionWorkFlowEdit />
+              <Button type="submit">submit</Button>
             </Flex>
           </FormProvider>
         </SlideFade>
@@ -203,21 +223,16 @@ export const getServerSideProps = withSSRAuth(async (ctx) => {
     authors_emails: data.authors_emails.split(','),
     advisor: data.advisor,
     advisor_lattes: data.advisor_lattes,
-    published_date: new Date(data.published_date).toLocaleDateString('pt-BR', {
-      day: '2-digit',
-      month: '2-digit',
-      year: 'numeric',
-    }),
+    published_date: formateDate(data.published_date),
     published_local: data.published_local,
     resumo: data.resumo,
     palavras_chave: data.palavras_chave.split(','),
     number_pages: data.number_pages,
     pdf_url: data.pdf_url,
-    knowledge_area: data.knowledge_area.name,
-    course: data.course.name,
+    knowledge_area: data.knowledge_area.id,
+    course: data.course.id,
   };
 
-  console.log(dataMonograph);
   return {
     props: { dataMonograph },
   };

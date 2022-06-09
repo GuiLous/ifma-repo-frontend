@@ -1,5 +1,5 @@
 import { KeyboardEvent, useEffect, useState } from 'react';
-import { useFieldArray, useFormContext } from 'react-hook-form';
+import { useFieldArray, useFormContext, Controller } from 'react-hook-form';
 
 import {
   Box,
@@ -19,6 +19,7 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
+import { DatePicker } from 'chakra-ui-date-input';
 
 import { SearchOptions } from '../../pages';
 import { api } from '../../services/apiClient';
@@ -30,7 +31,7 @@ type keyWordField = {
 };
 
 export function WorkStep() {
-  const { control, register } = useFormContext();
+  const { control, register, watch } = useFormContext();
 
   const [courses, setCourses] = useState<SearchOptions[]>(null);
   const [knowledges, setKnowledges] = useState<SearchOptions[]>(null);
@@ -74,6 +75,8 @@ export function WorkStep() {
     });
   }, []);
 
+  const { course, knowledge, date: defaultDate } = watch();
+
   return (
     <Grid
       mt="8"
@@ -114,6 +117,7 @@ export function WorkStep() {
           id="title"
           name="title"
           type="text"
+          color="purple.700"
           placeholder="Título da obra..."
           onKeyDown={handlePreventSubmission}
           {...register('title', { required: true })}
@@ -149,10 +153,10 @@ export function WorkStep() {
         <Select
           id="course"
           name="course"
-          color="gray.700"
           variant="outline"
           border="1px"
           bg="White"
+          color="purple.700"
           mb={['6', '6', '0']}
           mr={['0', '0', '3']}
           borderColor="gray.300"
@@ -161,8 +165,8 @@ export function WorkStep() {
           placeholder="Selecione uma opção"
           _placeholder={{ color: 'gray.300' }}
           fontSize={['0.6rem', '0.8rem', '1rem']}
-          defaultValue=""
           _hover={{ borderColor: 'green.200' }}
+          value={course}
           {...register('course', { required: true })}
         >
           {courses?.map((course) => (
@@ -195,7 +199,7 @@ export function WorkStep() {
         <Select
           id="knowledge"
           name="knowledge"
-          color="gray.700"
+          color="purple.700"
           variant="outline"
           border="1px"
           bg="White"
@@ -205,8 +209,8 @@ export function WorkStep() {
           placeholder="Selecione uma opção"
           _placeholder={{ color: 'gray.300' }}
           fontSize={['0.6rem', '0.8rem', '1rem']}
-          defaultValue=""
           _hover={{ borderColor: 'green.200' }}
+          value={knowledge}
           {...register('knowledge', { required: true })}
         >
           {knowledges?.map((knowledge) => (
@@ -243,11 +247,24 @@ export function WorkStep() {
           </Text>
         </Heading>
 
-        <Input
+        <Controller
+          control={control}
+          name="date"
+          render={({ field }) => (
+            <DatePicker
+              onChange={(date) => field.onChange(date)}
+              borderRadius="0"
+              mb={['6', '6', '0']}
+              placeholder={defaultDate}
+              color="purple.700"
+            />
+          )}
+        />
+        {/* <Input
           minWidth={150}
           borderColor="gray.300"
           _hover={{ borderColor: 'green.200' }}
-          color="gray.700"
+          color="purple.700"
           type="date"
           display="inline"
           id="date"
@@ -257,7 +274,7 @@ export function WorkStep() {
           mr={['0', '0', '3']}
           mb={['6', '6', '0']}
           {...register('date', { required: true })}
-        />
+        /> */}
 
         <Heading
           as="label"
@@ -268,6 +285,7 @@ export function WorkStep() {
           bg="green.400"
           px={['2', '4', '8']}
           py={['1px']}
+          ml={['0', '0', '3']}
           mr={['0', '0', '3']}
           mb={['1', '2', '0']}
           w={['100%', '100%', 'initial']}
@@ -284,7 +302,7 @@ export function WorkStep() {
           borderColor="gray.300"
           placeholder="Ex.: 100"
           _hover={{ borderColor: 'green.200' }}
-          color="gray.700"
+          color="purple.700"
           type="number"
           display="inline"
           id="numPages"
@@ -326,6 +344,7 @@ export function WorkStep() {
           name="locale"
           placeholder="Ex.: Caxias - MA"
           type="text"
+          color="purple.700"
           onKeyDown={handlePreventSubmission}
           mr={['0', '0', '10']}
           mb={['4', '6', '0']}
@@ -366,7 +385,7 @@ export function WorkStep() {
           placeholder="Escreva seu resumo..."
           borderColor="gray.300"
           _hover={{ borderColor: 'green.200' }}
-          color="gray.700"
+          color="purple.700"
           display="inline"
           id="abstract"
           name="abstract"
@@ -408,7 +427,7 @@ export function WorkStep() {
           minWidth={150}
           borderColor="gray.300"
           _hover={{ borderColor: 'green.200' }}
-          color="gray.700"
+          color="purple.700"
           type="file"
           display="inline"
           id="pdf"
@@ -458,14 +477,14 @@ export function WorkStep() {
                   fontSize={['0.7rem', '0.9rem', '1rem']}
                   fontWeight="bold"
                   textAlign="center"
-                  color="gray.700"
+                  color="purple.700"
                 >
                   {field?.keyWord}
                 </Td>
                 <Td
                   fontSize={['0.8rem', '0.9rem', '1rem']}
                   textAlign="center"
-                  color="gray.700"
+                  color="purple.700"
                 >
                   <Button
                     color="red.500"
@@ -503,7 +522,7 @@ export function WorkStep() {
               borderColor="gray.200"
               placeholder="Ex.: palavra01"
               _hover={{ borderColor: 'green.200' }}
-              color="gray.700"
+              color="purple.700"
               bg="White"
               display="inline"
               id="title"

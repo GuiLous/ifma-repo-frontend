@@ -30,13 +30,15 @@ export default function WorkItem({
         textTransform="uppercase"
       >
         <HStack spacing={['6', '8', '10']} align="flex-start">
-          <Text fontSize={['0.6rem', '0.7rem']}>AUTOR(ES)</Text>
+          <Text color="gray.400" fontSize={['0.6rem', '0.7rem']}>
+            AUTOR(ES)
+          </Text>
           <VStack
             spacing="0.1rem"
             letterSpacing="tighter"
             lineHeight="1.2rem"
             align="baseline"
-            color="gray.300"
+            color="gray.500"
             fontWeight="normal"
             fontSize={['0.8rem', '0.9rem']}
           >
@@ -45,7 +47,9 @@ export default function WorkItem({
             ))}
           </VStack>
         </HStack>
-        <Text fontSize={['0.6rem', '0.7rem']}>{published_date}</Text>
+        <Text color="gray.400" fontSize={['0.6rem', '0.7rem']}>
+          {published_date}
+        </Text>
       </Flex>
     </>
   );

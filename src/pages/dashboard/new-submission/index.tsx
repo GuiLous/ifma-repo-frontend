@@ -41,6 +41,11 @@ export default function NewSubmission() {
 
   const createWork = useMutation(
     async (work: CreateWorkFormData) => {
+      const formattedDate = work?.date.replaceAll('/', '-');
+      const dateArray = formattedDate.split('-');
+      const reverseDateArray = dateArray.reverse();
+      const joinReverseDateArray = reverseDateArray.join('-');
+
       let keyWordsFormatted = '';
       keyWordsFormatted += work.keyWords.map((key) => key.keyWord);
 
@@ -60,7 +65,7 @@ export default function NewSubmission() {
           resumo: work.abstract,
           palavras_chave: keyWordsFormatted,
           number_pages: Number(work.numPages),
-          published_date: new Date(work.date),
+          published_date: new Date(joinReverseDateArray),
           published_local: work.locale,
           course_id: work.course,
           knowledge_id: work.knowledge,

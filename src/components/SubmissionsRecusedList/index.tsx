@@ -71,6 +71,7 @@ export function SubmissionsRecusedList({ works }: SubmissionsRecusedListProps) {
                   <Td>
                     <Button
                       as="a"
+                      href={`/dashboard/edit-submission/${work?.id}`}
                       size="sm"
                       fontSize="sm"
                       colorScheme="yellow"
@@ -115,6 +116,7 @@ export function SubmissionsRecusedList({ works }: SubmissionsRecusedListProps) {
                     <Td>
                       <Button
                         as="a"
+                        href={`/dashboard/edit-submission/${work?.id}`}
                         size="sm"
                         fontSize="sm"
                         colorScheme="yellow"

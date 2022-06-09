@@ -56,6 +56,7 @@ export function AdvisorStep() {
           id="advisor"
           name="advisor"
           type="text"
+          color="purple.700"
           placeholder="fulano de tal..."
           mr={['0', '0', '10']}
           mb={['4', '6', '0']}
@@ -84,6 +85,7 @@ export function AdvisorStep() {
         <SubmissionInput
           id="lattes"
           name="lattes"
+          color="purple.700"
           placeholder="Ex.: http://lattes.cnpq.br/00000000000"
           type="text"
           onKeyDown={handlePreventSubmission}

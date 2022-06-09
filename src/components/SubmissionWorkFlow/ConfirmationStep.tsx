@@ -40,12 +40,6 @@ export function ConfirmationStep() {
     title,
   } = getValues();
 
-  const published_date = new Date(date).toLocaleDateString('pt-BR', {
-    day: '2-digit',
-    month: '2-digit',
-    year: 'numeric',
-  });
-
   useEffect(() => {
     api.get('/courses').then((response) => {
       setCourses(response.data);
@@ -133,7 +127,7 @@ export function ConfirmationStep() {
             Data Publicação:
           </Heading>
           <Text color="gray.600" fontSize={['0.8rem', '0.9rem', '1.1rem']}>
-            {published_date}
+            {date}
           </Text>
         </Stack>
       </Flex>

@@ -1,4 +1,4 @@
-import { FormEvent, useContext } from 'react';
+import { FormEvent } from 'react';
 import { useFormContext } from 'react-hook-form';
 import {
   RiBookLine,
@@ -10,7 +10,6 @@ import {
 import {
   Button,
   Flex,
-  Heading,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -41,6 +40,7 @@ const steps = [
 
 export const SubmissionWorkFlowEdit = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   let isDataEmpty = true;
 
   const {
@@ -52,10 +52,11 @@ export const SubmissionWorkFlowEdit = () => {
     initialStep: 0,
   });
 
-  const { title } = watch();
+  const { pdf } = watch();
 
-  if (title !== undefined) {
+  if (pdf !== undefined) {
     const {
+      title,
       abstract,
       course,
       date,

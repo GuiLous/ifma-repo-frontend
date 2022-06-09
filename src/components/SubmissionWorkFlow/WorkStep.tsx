@@ -1,5 +1,5 @@
 import { KeyboardEvent, useEffect, useState } from 'react';
-import { useFieldArray, useFormContext } from 'react-hook-form';
+import { useFieldArray, useFormContext, Controller } from 'react-hook-form';
 
 import {
   Box,
@@ -19,6 +19,7 @@ import {
   Thead,
   Tr,
 } from '@chakra-ui/react';
+import { DatePicker } from 'chakra-ui-date-input';
 
 import { SearchOptions } from '../../pages';
 import { api } from '../../services/apiClient';
@@ -243,20 +244,19 @@ export function WorkStep() {
           </Text>
         </Heading>
 
-        <Input
-          minWidth={150}
-          borderColor="gray.300"
-          _hover={{ borderColor: 'green.200' }}
-          color="gray.700"
-          type="date"
-          display="inline"
-          id="date"
-          placeholder="dd-mm-yyyy"
+        <Controller
+          control={control}
           name="date"
-          borderRadius="0"
-          mr={['0', '0', '3']}
-          mb={['6', '6', '0']}
-          {...register('date', { required: true })}
+          render={({ field }) => (
+            <DatePicker
+              id="date"
+              onChange={(date) => field.onChange(date)}
+              borderRadius="0"
+              mb={['6', '6', '0']}
+              placeholder="DD/MM/YYYY"
+              color="gray.700"
+            />
+          )}
         />
 
         <Heading
@@ -268,6 +268,7 @@ export function WorkStep() {
           bg="green.400"
           px={['2', '4', '8']}
           py={['1px']}
+          ml={['0', '0', '3']}
           mr={['0', '0', '3']}
           mb={['1', '2', '0']}
           w={['100%', '100%', 'initial']}
