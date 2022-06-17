@@ -1,19 +1,31 @@
-import { KeyboardEvent } from 'react';
+import { KeyboardEvent, useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import { Grid, GridItem, Heading, Text } from '@chakra-ui/react';
 
+import { api } from '../../services/apiClient';
 import { Input as SubmissionInput } from './Input';
 
-const dataOptions = [{ name: 'a' }, { name: 'a' }];
 export function AdvisorStep() {
   const { register } = useFormContext();
+  const [advisors, setAdvisors] = useState();
 
   function handlePreventSubmission(e: KeyboardEvent) {
     if (e.key === 'Enter') {
       e.preventDefault();
     }
   }
+
+  useEffect(() => {
+    api
+      .get('/users/advisors')
+      .then((response) => {
+        setAdvisors(response.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, []);
 
   return (
     <Grid
@@ -60,7 +72,7 @@ export function AdvisorStep() {
           mr={['0', '0', '10']}
           mb={['4', '6', '0']}
           onKeyDown={handlePreventSubmission}
-          dataOptions={dataOptions}
+          dataOptions={advisors}
           {...register('advisor')}
         />
 

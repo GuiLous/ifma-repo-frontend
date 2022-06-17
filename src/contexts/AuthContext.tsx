@@ -112,6 +112,13 @@ export function AuthProvider({ children }: AuthProviderProps) {
 
       authChannel.postMessage('signIn');
       Router.push('/');
+      toast({
+        title: 'Usuário logado!',
+        position: 'top',
+        status: 'success',
+        isClosable: true,
+        duration: 3000,
+      });
     } catch (err) {
       console.log(err.response);
       toast({

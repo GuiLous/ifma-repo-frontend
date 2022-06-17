@@ -36,6 +36,7 @@ type Work = {
   pdf_url: string;
   knowledge_area: string;
   course: string;
+  user_id: string;
 };
 
 interface ReviewWorkProps {
@@ -45,6 +46,7 @@ interface ReviewWorkProps {
 export function ReviewWork({ dataMonograph }: ReviewWorkProps) {
   const toast = useToast();
   const [commentCorrection, setCommentCorrection] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const review = useMutation(
     async () => {
@@ -52,6 +54,13 @@ export function ReviewWork({ dataMonograph }: ReviewWorkProps) {
         try {
           await api.put('/monographs/update-verified', {
             id: dataMonograph.id,
+          });
+
+          await api.post('/monographs/send-email', {
+            user_id: dataMonograph?.user_id,
+            statusMessage:
+              'Submissão verificada e já pode ser encontrada no site!',
+            titleSubmission: 'Submission title 01 teste',
           });
 
           Router.push('/dashboard');
@@ -77,6 +86,13 @@ export function ReviewWork({ dataMonograph }: ReviewWorkProps) {
           await api.put('/monographs/update-comments', {
             id: dataMonograph.id,
             commentToReview: commentCorrection,
+          });
+
+          await api.post('/monographs/send-email', {
+            user_id: dataMonograph?.user_id,
+            statusMessage:
+              'Alguns campus necessitam serem corrigidos. Acesse: Meu Perfil -> Submissões Recusadas',
+            titleSubmission: 'Submission title 01 teste',
           });
 
           Router.push('/dashboard');
@@ -111,7 +127,9 @@ export function ReviewWork({ dataMonograph }: ReviewWorkProps) {
 
   const handleReview = async (event: FormEvent) => {
     event.preventDefault();
+    setIsSubmitting(true);
     await review.mutateAsync();
+    setIsSubmitting(false);
   };
 
   return (
@@ -415,6 +433,7 @@ export function ReviewWork({ dataMonograph }: ReviewWorkProps) {
           _hover={{ bg: 'red.300' }}
           type="submit"
           isDisabled={commentCorrection === ''}
+          isLoading={isSubmitting}
         >
           Corrigir
         </Button>
@@ -427,6 +446,7 @@ export function ReviewWork({ dataMonograph }: ReviewWorkProps) {
           fontSize={['0.75rem', '0.9rem', '1.2rem']}
           colorScheme="teal"
           type="submit"
+          isLoading={isSubmitting}
         >
           Tudo certo!
         </Button>

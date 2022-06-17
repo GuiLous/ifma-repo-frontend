@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'react';
+import { useContext } from 'react';
 import { RiMenuLine } from 'react-icons/ri';
 
 import { Flex, Icon, IconButton, useBreakpointValue } from '@chakra-ui/react';

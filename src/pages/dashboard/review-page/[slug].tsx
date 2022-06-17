@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect } from 'react';
 
 import { Flex, SlideFade, useDisclosure } from '@chakra-ui/react';
 import Router from 'next/router';
@@ -26,6 +26,7 @@ type Work = {
   pdf_url: string;
   knowledge_area: string;
   course: string;
+  user_id: string;
 };
 
 interface ReviewPageProps {
@@ -101,6 +102,7 @@ export const getServerSideProps = withSSRAuth(async (ctx) => {
     pdf_url: data.pdf_url,
     knowledge_area: data.knowledge_area.name,
     course: data.course.name,
+    user_id: data.user_id,
   };
 
   return {

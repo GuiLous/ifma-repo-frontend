@@ -1,13 +1,11 @@
 import { useContext } from 'react';
 import {
   RiAddLine,
-  RiBookLine,
   RiCheckLine,
   RiContactsLine,
   RiFile2Line,
   RiFileInfoLine,
   RiLoader4Line,
-  RiStackOverflowLine,
 } from 'react-icons/ri';
 
 import { Stack } from '@chakra-ui/react';
@@ -34,7 +32,7 @@ export function SideBarNav() {
           </NavLink>
         </NavSection>
       )}
-      {!user?.isAdmin && (
+      {!user?.isAdmin && !user?.isAdvisor && (
         <NavSection title="SUBMISSÕES">
           <NavLink icon={RiAddLine} href="/dashboard/new-submission">
             Nova Submissão
@@ -47,6 +45,20 @@ export function SideBarNav() {
           </NavLink>
           <NavLink icon={RiFileInfoLine} href="/dashboard/recused-submissions">
             Submissões Recusadas
+          </NavLink>
+        </NavSection>
+      )}
+
+      {user?.isAdvisor && (
+        <NavSection title="SUBMISSÕES">
+          <NavLink icon={RiAddLine} href="/dashboard/new-submission">
+            Nova Submissão
+          </NavLink>
+          <NavLink icon={RiCheckLine} href="/dashboard/accepts-submissions">
+            Minhas Submissões
+          </NavLink>
+          <NavLink icon={RiFileInfoLine} href="/dashboard/review-submissions">
+            Verificar Submissões
           </NavLink>
         </NavSection>
       )}

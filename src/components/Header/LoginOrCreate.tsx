@@ -45,7 +45,7 @@ export function LoginOrCreate() {
       {isWideVersion && <Separator />}
       {!isWideVersion && <Box mb={['2', '4']} />}
 
-      <NextLink href="/session/createuser" passHref>
+      <NextLink href="/session/create-user" passHref>
         <Link
           border="1px"
           borderColor="gray.100"

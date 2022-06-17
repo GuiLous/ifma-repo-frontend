@@ -1,14 +1,18 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useMutation } from 'react-query';
 
-import { Box, Divider, Heading, SimpleGrid, VStack } from '@chakra-ui/react';
+import {
+  Box,
+  Divider,
+  Heading,
+  SimpleGrid,
+  useToast,
+  VStack,
+} from '@chakra-ui/react';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 
-import { AuthContext } from '../../contexts/AuthContext';
 import { api } from '../../services/apiClient';
-import { queryClient } from '../../services/queryClient';
 import { Input } from '../FormLogin/Input';
 import { FormButtons } from './FormButtons';
 
@@ -26,7 +30,7 @@ const createUserFormSchema = yup.object().shape({
     .required('Email Obrigatório')
     .matches(
       // eslint-disable-next-line no-useless-escape
-      /^[a-z0-9]+(?!.*(?:\+{2,}|\-{2,}|\.{2,}))(?:[\.+\-]{0,1}[a-z0-9])*@(ifma|(acad\.ifma))\.edu\.br$/,
+      /^([a-z0-9]|[A-Z0-9])+(?!.*(?:\+{2,}|\-{2,}|\.{2,}))(?:[\.+\-]{0,1}([a-z0-9]|[A-Z0-9]))*@(ifma|(acad\.ifma))\.edu\.br$/,
       'O email deve terminar com: @ifma.edu.br ou @acad.ifma.edu.br'
     ),
   password: yup
@@ -39,36 +43,42 @@ const createUserFormSchema = yup.object().shape({
 });
 
 export function FormCreateUser() {
+  const toast = useToast();
   const [showPassword, setShowPassword] = useState(false);
   const [showPasswordConfirmation, setShowPasswordConfirmation] =
     useState(false);
-
-  const { signIn } = useContext(AuthContext);
 
   const handleClick = () => setShowPassword(!showPassword);
 
   const handleClickPasswordConfirmation = () =>
     setShowPasswordConfirmation(!showPasswordConfirmation);
 
-  const createUser = useMutation(
-    async (user: CreateUserFormData) => {
+  const createUser = async (user: CreateUserFormData) => {
+    try {
       await api.post('/users', {
         email: user.email,
         password: user.password,
         fullName: user.name,
       });
 
-      await signIn({
-        email: user.email,
-        password: user.password,
+      toast({
+        title:
+          'Enviamo um email para confirmarmos se esse email é válido. Por favor, verifique seu email!',
+        position: 'top',
+        status: 'info',
+        isClosable: true,
+        duration: 7000,
       });
-    },
-    {
-      onSuccess: () => {
-        queryClient.invalidateQueries('users');
-      },
+    } catch (error) {
+      toast({
+        title: `${error.response.data.message}`,
+        position: 'top',
+        status: 'error',
+        isClosable: true,
+        duration: 3000,
+      });
     }
-  );
+  };
 
   const {
     register,
@@ -81,7 +91,7 @@ export function FormCreateUser() {
   const handleCreateUser: SubmitHandler<CreateUserFormData> = async (
     values
   ) => {
-    await createUser.mutateAsync(values);
+    await createUser(values);
   };
 
   return (

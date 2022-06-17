@@ -4,6 +4,7 @@ import { Box, Flex, SlideFade, useDisclosure } from '@chakra-ui/react';
 
 import { FormCreateUser } from '../../../components/FormCreateUser';
 import { Header } from '../../../components/Header';
+import { withSSRGuest } from '../../../utils/withSSRGuest';
 
 export default function CreateUser() {
   const { isOpen, onToggle } = useDisclosure();
@@ -32,3 +33,9 @@ export default function CreateUser() {
     </Box>
   );
 }
+
+export const getServerSideProps = withSSRGuest(async (_ctx) => {
+  return {
+    props: {},
+  };
+});

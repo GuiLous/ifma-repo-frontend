@@ -7,7 +7,8 @@ import {
 } from '@chakra-ui/react';
 
 type AdvisorOptions = {
-  name: string;
+  id: string;
+  fullName: string;
 };
 
 interface InputProps extends ChakraInputProps {
@@ -19,7 +20,7 @@ interface InputProps extends ChakraInputProps {
 }
 
 const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
-  { name, id, type, error = null, dataOptions, ...rest },
+  { name, id, type, dataOptions, ...rest },
   ref
 ) => {
   return (
@@ -46,7 +47,11 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
 
       {dataOptions && (
         <datalist id="listAdvisors">
-          <option value="a" />
+          {dataOptions?.map((dataOption) => (
+            <option key={dataOption.id} value={dataOption.fullName}>
+              {dataOption.fullName}
+            </option>
+          ))}
         </datalist>
       )}
     </>

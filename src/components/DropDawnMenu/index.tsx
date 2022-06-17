@@ -5,7 +5,6 @@ import {
   DrawerContent,
   DrawerHeader,
   DrawerOverlay,
-  useDisclosure,
 } from '@chakra-ui/react';
 
 import { SideBarNav } from './SideBarNav';

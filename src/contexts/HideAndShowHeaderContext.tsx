@@ -1,4 +1,4 @@
-import { createContext, ReactNode, useEffect, useRef, useState } from 'react';
+import { createContext, ReactNode, useEffect, useState } from 'react';
 
 import { useDisclosure } from '@chakra-ui/react';
 
