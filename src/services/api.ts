@@ -26,7 +26,7 @@ export function setupAPIClient(ctx = undefined) {
       return response;
     },
     (error: AxiosError) => {
-      if (error.response.status === 401) {
+      if (error.response?.status === 401) {
         const { message } = error.response.data as ErrorResponse;
 
         if (message === 'Token expired!') {
