@@ -130,7 +130,6 @@ export default function Home({
             maxWidth={[700, 700, 400, 400]}
             direction={['column', 'column', 'column']}
             mt={['15px', '18px', '102px']}
-            // pl={['1', '0', '6']}
             align="center"
           >
             <SideSearch
