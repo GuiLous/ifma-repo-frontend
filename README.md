@@ -10,7 +10,7 @@
 
 <p align="center">
   <a href="#dart-sobre">Sobre</a> &#xa0; | &#xa0; 
-  <a href="#rocket-tecnologias">Tecnologias</a> &#xa0; | &#xa0;
+  <a href="#tecnologias">Tecnologias</a> &#xa0; | &#xa0;
   <a href="#white_check_mark-requerimentos">Requerimentos</a> &#xa0; | &#xa0;
   <a href="#checkered_flag-começando">Começando</a> &#xa0; &#xa0; | &#xa0;
   <a href="#framed_picture-imagens">Imagens</a> &#xa0; &#xa0;
@@ -20,25 +20,16 @@
 
 ## :dart: Sobre ##
 
-O projeto ig.news é um blog onde os usuários podem ter acesso ao conteúdo de cada postagem de acordo com o status de sua assinatura.<br>
-O blog possui um sistema de compra integrado com o STRIPE, e após o usuário realizar o pagamento, sua inscrição estará ativa e pronta para visualizar o conteúdo completo
-de todo o blog. Caso o usuário não deseje optar pela assinatura, ele terá acesso limitado ao conteúdo das postagens. E todos os dados necessários para se fazer verificações
-de assinaturas ou dados dos usuários, estão salvos no banco de dados FaunaDB.
-<br>
-<br>
-Essa é uma aplicação Serverless, ou seja, todo o processo que dependeria de um backend foi integrado dentro do front e seguindo o padrão da JAMStack.
-<br>
-As postagens são feitas pelo painel do Prismic CMS e integradas diretamente pelo front.
+O Pojeto repoIFMA é um projeto de estágio para o Instituto Federal de Educação, Ciência e Tecnologia do Maranhão, com o objetivo de construir um repositório de Tcc's da instituição. Neste projeto os usuários podem se cadastrar com seu email institucional e fazer a submissão de seus trabalhos para o repositório. O projeto também conta com um painel de administrador para gerenciar as submissões.
 
 
-## :rocket: Tecnologias ##
+## :Tecnologias ##
 
 As seguintes tecnologias foram utilizadas no projeto:
 
 - [Next.js](https://nextjs.org/)
-- [Prismic CMS](https://prismic.io/)
-- [Stripe](https://stripe.com/)
-- [FaunaDB](https://fauna.com/)
+- [Chakra Ui](https://chakra-ui.com/)
+- [Postgresql](https://www.postgresql.org/)
 
 ## :white_check_mark: Requerimentos ##
 
@@ -48,11 +39,15 @@ As seguintes tecnologias foram utilizadas no projeto:
 ## :checkered_flag: Começando ##
 
 ```bash
+
+#-> This projet needs the Backend server = https://github.com/Guilous/ifma-repo-backend <-
+
+
 # Clone this project
-$ git clone https://github.com/Guilous/ignews
+$ git clone https://github.com/Guilous/ifma-repo-frontend
 
 # Access
-$ cd ignews
+$ cd ifma-repo-frontend
 
 # Install dependencies
 $ yarn install
@@ -65,10 +60,10 @@ $ yarn dev
 ## :framed_picture: Imagens ##
 
 <h1 align="center">
-    <img alt = "Web app" src = "https://github.com/khalleb/ignews/blob/main/.github/image-01.png?raw=true" width = "500px" />
-    <img alt = "Web app" src = "https://github.com/khalleb/ignews/blob/main/.github/image-02.png?raw=true" width = "500px" />
-    <img alt = "Web app" src = "https://github.com/khalleb/ignews/blob/main/.github/image-03.png?raw=true" width = "500px" />
-    <img alt = "Web app" src = "https://github.com/khalleb/ignews/blob/main/.github/image-04.png?raw=true" width = "500px" />
+    <img alt = "Web app" src = "https://github.com/GuiLous/ifma-repo-frontend/blob/main/repo01.png?raw=true" width = "500px" />
+    <img alt = "Web app" src = "https://github.com/GuiLous/ifma-repo-frontend/blob/main/repo02.png?raw=true" width = "500px" />
+    <img alt = "Web app" src = "https://github.com/GuiLous/ifma-repo-frontend/blob/main/repo03.png?raw=true" width = "500px" />
+    <img alt = "Web app" src = "https://github.com/GuiLous/ifma-repo-frontend/blob/main/repo04.png?raw=true" width = "500px" />
 </h1>
 
  você vai me encontrar em qualquer uma das redes sociais abaixo:
